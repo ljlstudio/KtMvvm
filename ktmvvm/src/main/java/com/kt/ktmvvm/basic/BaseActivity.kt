@@ -3,6 +3,7 @@ package com.kt.ktmvvm.basic
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentActivity
@@ -16,26 +17,28 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import kotlinx.coroutines.launch
 import java.lang.reflect.ParameterizedType
 
-abstract class BaseActivity< V : ViewDataBinding,  VM : BaseViewModel> : RxAppCompatActivity(),
+abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel> : RxAppCompatActivity(),
     IBaseView {
 
-    private var binding: V? = null
-    private var viewModel: VM? = null
-    private var viewModelId = 0
+    open var binding: V? = null
+    open var viewModel: VM? = null
+    open var viewModelId = 0
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
+
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         initViewDataBinding(savedInstanceState)
-        //页面接受的参数方法
         //页面接受的参数方法
         initParam()
         //私有的ViewModel与View的契约事件回调逻辑
         registorUIChangeLiveDataCallBack()
-        //页面数据初始化方法  这个方法注释掉没有意义了
         //页面事件监听的方法，一般用于ViewModel层转到View层的事件注册
         initViewObservable()
     }
+
 
     private fun registorUIChangeLiveDataCallBack() {
         //跳入新页面
@@ -44,7 +47,7 @@ abstract class BaseActivity< V : ViewDataBinding,  VM : BaseViewModel> : RxAppCo
         viewModel?.getUC()?.getStartActivityEvent()?.observe(this) { params ->
 
             params?.let {
-                val clz = params!![CLASS] as Class<*>?
+                val clz = params[CLASS] as Class<*>?
                 val intent = Intent(this@BaseActivity, clz)
 //            intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
                 val bundle = params[BUNDLE]
@@ -87,7 +90,10 @@ abstract class BaseActivity< V : ViewDataBinding,  VM : BaseViewModel> : RxAppCo
 
     private fun initViewDataBinding(savedInstanceState: Bundle?) {
         //DataBindingUtil类需要在project的build中配置 dataBinding {enabled true }, 同步后会自动关联android.databinding包
-        binding = DataBindingUtil.setContentView(this, initContentView(savedInstanceState))
+        binding =
+            DataBindingUtil.setContentView(this@BaseActivity, initContentView(savedInstanceState))
+
+
         viewModelId = initVariableId()
         val modelClass: Class<BaseViewModel>
         val type = javaClass.genericSuperclass
@@ -110,6 +116,11 @@ abstract class BaseActivity< V : ViewDataBinding,  VM : BaseViewModel> : RxAppCo
         viewModel?.injectLifecycleProvider(this)
 
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding?.unbind()
     }
 
 

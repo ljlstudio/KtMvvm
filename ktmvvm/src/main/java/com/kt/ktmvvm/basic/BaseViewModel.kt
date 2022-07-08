@@ -176,54 +176,61 @@ open class BaseViewModel(application: Application) : AndroidViewModel(applicatio
 
 
             fun getResultFragment(): SingleLiveEvent<Map<String, Any>> {
-                return createLiveData(setResultFragment as SingleLiveEvent<Map<String, Any>>).also {
+                return createLiveData(setResultFragment).also {
                     setResultFragment = it
                 }
             }
 
             fun getStartActivityForFragment(): SingleLiveEvent<Map<String, Any>> {
-                return createLiveData(startActivityForFragment as SingleLiveEvent<Map<String, Any>>).also {
+                return createLiveData(startActivityForFragment).also {
                     startActivityForFragment = it
                 }
             }
 
             fun getFinishResult(): SingleLiveEvent<Int> {
-                return createLiveData(finishResult as SingleLiveEvent<Int>).also {
+                return createLiveData(finishResult ).also {
                     finishResult = it
                 }
             }
 
             fun getStartActivityEvent(): SingleLiveEvent<Map<String, Any>> {
-                return createLiveData(startActivityEvent as SingleLiveEvent<Map<String, Any>>).also {
+                return createLiveData(startActivityEvent).also {
                     startActivityEvent = it
                 }
+
+
             }
 
             fun getSetResultEvent(): SingleLiveEvent<Map<String, String>> {
-                return createLiveData(setResultEvent as SingleLiveEvent<Map<String, String>>).also {
+                return createLiveData(setResultEvent).also {
                     setResultEvent = it
                 }
             }
 
             fun getFinishEvent(): SingleLiveEvent<Void> {
-                return createLiveData(finishEvent as SingleLiveEvent<Void>).also {
+                return createLiveData(finishEvent).also {
                     finishEvent = it
                 }
             }
 
             fun getOnBackPressedEvent(): SingleLiveEvent<Void> {
-                return createLiveData(onBackPressedEvent as SingleLiveEvent<Void>).also {
+                return createLiveData(onBackPressedEvent).also {
                     onBackPressedEvent = it
                 }
             }
 
 
-            private fun <T> createLiveData(liveData: SingleLiveEvent<T>): SingleLiveEvent<T> {
-                var liveData: SingleLiveEvent<T>? = liveData
-                if (liveData == null) {
-                    liveData = SingleLiveEvent()
+            private fun <T> createLiveData(liveData: SingleLiveEvent<T>?): SingleLiveEvent<T> {
+
+                var mLive: SingleLiveEvent<T>?=liveData
+                liveData?.let {
+                    return mLive!!
+                }?:let {
+                    mLive= SingleLiveEvent()
                 }
-                return liveData
+
+
+                return mLive!!
             }
 
 
