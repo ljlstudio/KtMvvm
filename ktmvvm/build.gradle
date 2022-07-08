@@ -61,13 +61,14 @@ dependencies {
 
 
     api 'com.squareup.okhttp3:logging-interceptor:3.6.0'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
-    api 'com.squareup.retrofit2:adapter-rxjava:2.4.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
+    api 'com.squareup.retrofit2:adapter-rxjava:2.6.0'
+    api 'com.squareup.okhttp3:okhttp:3.12.0'
+    api 'com.squareup.retrofit2:retrofit:2.6.0'
+    api 'com.squareup.retrofit2:converter-gson:2.6.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
     api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
-    api 'com.squareup.okhttp3:okhttp:3.10.0'
-    api 'com.squareup.retrofit2:retrofit:2.4.0'
-    api 'com.squareup.retrofit2:converter-gson:2.4.0'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+
     implementation 'org.jetbrains:annotations:15.0'
 
 
