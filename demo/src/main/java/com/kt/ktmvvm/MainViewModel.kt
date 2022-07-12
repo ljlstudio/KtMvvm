@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import com.kt.ktmvvm.basic.BaseViewModel
+import com.kt.ktmvvm.jetpack.viewpager.ViewPager2Activity
 import com.kt.ktmvvm.net.ApiException
 import com.kt.ktmvvm.net.DataService
 import kotlinx.coroutines.launch
@@ -13,7 +14,7 @@ import kotlin.math.log
 
 open class MainViewModel(application: Application) : BaseViewModel(application) {
 
-    public  var textName: ObservableField<String>?=ObservableField("您好")
+    public var textName: ObservableField<String>? = ObservableField("您好")
 
     override fun onCreate() {
         super.onCreate()
@@ -44,6 +45,13 @@ open class MainViewModel(application: Application) : BaseViewModel(application) 
             Log.d(TAG, "the error is" + it.message)
         })
 
+    }
 
+
+    /**
+     * 跳转viewpager2
+     */
+    open fun goViewPager2() {
+        startActivity(ViewPager2Activity::class.java)
     }
 }
