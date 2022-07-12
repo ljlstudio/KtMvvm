@@ -3,10 +3,9 @@ package com.kt.ktmvvm
 import java.util.*
 
 object Constants {
-    private const val picture1: String =
-        "https://photoos.macsc.com/180324/180324_6/li6RrxTLwk_small.jpg"
+    private const val picture1: String = "https://photoos.macsc.com/180324/180324_6/li6RrxTLwk_small.jpg"
     private const val picture2: String = "https://qq.yh31.com/tp/fj/202112221557442701.jpg"
-    private const val picture3: String = "http://www.pp3.cn/uploads/20120713j/87.jpg"
+    private const val picture3: String = "https://i.pinimg.com/736x/65/4d/6f/654d6f9e8d2ff55210aa7bcfcf2d9bd6.jpg"
     private const val picture4: String = "https://pic.3gbizhi.com/2014/1117/20141117022205523.jpg"
     private const val picture5: String =
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2sTFVhjwSqBVkO69KKf9fXHtnkz04LPrh_A&usqp=CAU"

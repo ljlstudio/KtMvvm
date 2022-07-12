@@ -3,6 +3,7 @@ package com.kt.ktmvvm.jetpack.viewpager
 import android.app.Application
 import android.util.Log
 import androidx.databinding.ObservableField
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.kt.ktmvvm.Constants
 import com.kt.ktmvvm.basic.BaseViewModel
@@ -15,16 +16,19 @@ class ViewPager2ViewModel(application: Application) : BaseViewModel(application)
     var adapter: ObservableField<ViewPagerAdapter>? = ObservableField(ViewPagerAdapter(this))
     var verticalAdapter: ObservableField<ViewPagerVerticalAdapter>? =
         ObservableField(ViewPagerVerticalAdapter(this))
-    var origenVisible: ObservableField<Boolean>? = ObservableField(true)
     var pageListener: ObservableField<ViewPager2.OnPageChangeCallback>? =
         ObservableField(PageListener())
 
     var pageCurrentItem: ObservableField<Int>? = ObservableField(0)
 
 
+
+
     override fun onCreate() {
         super.onCreate()
+
         adapter?.get()?.setNewInstance(Constants.pictures)
+        verticalAdapter?.get()?.setNewInstance(Constants.pictures)
         setCurrentItem(0)
     }
 

@@ -1,6 +1,7 @@
 package com.kt.ktmvvm
 
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -57,6 +58,37 @@ object BindingAdapter {
     }
 
 
+    @BindingAdapter("bindMoreVerticalPage")
+    @JvmStatic
+    fun setViewVerticalPagerMorePage(viewPager2: ViewPager2, boolean: Boolean) {
+        if (boolean) {
+            viewPager2.apply {
+                offscreenPageLimit = 3
+
+            }
+            val compositePageTransformer = CompositePageTransformer()
+//            compositePageTransformer.addTransformer(ScaleInTransformer())
+            compositePageTransformer.addTransformer(MarginPageTransformer(25))
+            viewPager2.setPageTransformer(compositePageTransformer)
+        }
+
+    }
+
+
+    @BindingAdapter("layoutManager")
+    @JvmStatic
+    fun setViewPagerLayoutManager(
+        viewPager2: ViewPager2,
+        linearLayoutManager: LinearLayoutManager
+    ) {
+        val recyclerView = viewPager2.getChildAt(0) as RecyclerView
+
+        recyclerView.apply {
+            layoutManager = linearLayoutManager
+        }
+    }
+
+
     @BindingAdapter("bindPageListener")
     @JvmStatic
     fun setViewPagerListener(viewPager2: ViewPager2, callback: ViewPager2.OnPageChangeCallback) {
@@ -67,6 +99,6 @@ object BindingAdapter {
     @BindingAdapter("bindPageCurrentItem")
     @JvmStatic
     fun setViewPagerCurrentItem(viewPager2: ViewPager2, currentItem: Int) {
-        viewPager2.setCurrentItem(currentItem,false)
+        viewPager2.setCurrentItem(currentItem, false)
     }
 }

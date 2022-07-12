@@ -1,5 +1,7 @@
 package com.kt.ktmvvm.jetpack.adapter
 
+import android.view.View
+import androidx.core.view.updateLayoutParams
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.bumptech.glide.Glide
@@ -15,6 +17,11 @@ class ViewPagerVerticalAdapter(model: ViewPager2ViewModel) :
 
     private var model: ViewPager2ViewModel? = model
 
+
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+        super.onBindViewHolder(holder, position)
+
+    }
     override fun convert(holder: BaseViewHolder, item: String) {
         try {
             if (DataBindingUtil.getBinding<ViewDataBinding?>(holder.itemView) == null) {
@@ -24,7 +31,8 @@ class ViewPagerVerticalAdapter(model: ViewPager2ViewModel) :
             val binding = holder.getBinding<ViewpagerVerticalItemLayoutBinding>()
             binding?.model = model
 
-            Glide.with(context).asBitmap().into(binding?.img!!)
+            Glide.with(context).asBitmap().load(item
+            ).into(binding?.img!!)
         } catch (e: Exception) {
         }
 
