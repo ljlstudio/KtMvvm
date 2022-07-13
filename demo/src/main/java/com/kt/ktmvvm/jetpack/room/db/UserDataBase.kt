@@ -5,9 +5,10 @@ import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [User::class], version = 1)
+@Database(entities = [User::class], version = 2)
 abstract class UserDataBase : RoomDatabase() {
     abstract fun userDao(): UserDao
 
@@ -24,6 +25,7 @@ abstract class UserDataBase : RoomDatabase() {
                     //是否允许在主线程进行查询
                     .allowMainThreadQueries()
                     .fallbackToDestructiveMigration()
+                    .addMigrations(ADD_FIELD_MIGRATION_1_2)
                     .addCallback(object : Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
                             super.onCreate(db)
@@ -35,5 +37,19 @@ abstract class UserDataBase : RoomDatabase() {
             }
             return instance!!
         }
+
+
+        /**
+         * 增加字段升级
+         */
+        private val ADD_FIELD_MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE User ADD COLUMN sex Text")
+
+            }
+
+
+        }
     }
+
 }

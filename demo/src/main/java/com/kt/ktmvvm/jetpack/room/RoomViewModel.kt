@@ -31,17 +31,14 @@ class RoomViewModel(application: Application) : BaseViewModel(application) {
      * 创建一张表
      */
     fun insertTable() {
-        viewModelScope.launch {
 
-            val hotDog = UserDataBase.get(getApplication()).userDao().findById(4)
+        viewModelScope.launch {
+            val random = (1..10).random()
+            val hotDog = UserDataBase.get(getApplication()).userDao().findById(random)
 
             hotDog?.let {
                 Log.d(TAG, "已经有一条相同的数据啦")
-            } ?: let {
-                val mD = User(4, "热狗先生")
-                UserDataBase.get(getApplication()).userDao().insertAll(mD)
-                Log.d(TAG, "插入数据成功")
-            }
+            } ?: randomInsert(random)
 
             //先查询,如果没这条数据 就插入，有的话打印数据
 
@@ -60,7 +57,7 @@ class RoomViewModel(application: Application) : BaseViewModel(application) {
             user?.let {
                 //如果不为空，则更新
                 UserDataBase.get(getApplication()).userDao()
-                    .updateUser(User(random, "我是更新整个user后的数据"))
+                    .updateUser(User(random, "我是更新整个user后的数据", "男"))
                 Log.d(TAG, "更新整个user数据成功")
             } ?: randomInsert(random)
         }
@@ -103,7 +100,7 @@ class RoomViewModel(application: Application) : BaseViewModel(application) {
      * 随机插入某条数据，方便测试
      */
     private fun randomInsert(random: Int) {
-        val mD = User(random, "热狗先生$random")
+        val mD = User(random, "热狗先生$random", "女")
         UserDataBase.get(getApplication()).userDao().insertAll(mD)
         Log.d(TAG, "插入数据成功")
     }
