@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import com.kt.ktmvvm.basic.BaseViewModel
+import com.kt.ktmvvm.jetpack.room.RoomActivity
 import com.kt.ktmvvm.jetpack.viewpager.ViewPager2Activity
 import com.kt.ktmvvm.net.ApiException
 import com.kt.ktmvvm.net.DataService
@@ -53,5 +54,13 @@ open class MainViewModel(application: Application) : BaseViewModel(application) 
      */
     open fun goViewPager2() {
         startActivity(ViewPager2Activity::class.java)
+    }
+
+
+    /**
+     * 进入room数据库
+     */
+    open fun goRoom() {
+        startActivity(RoomActivity::class.java)
     }
 }

@@ -22,15 +22,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{()->model.login()}"
-            android:text="测试登录（login接口测试）"
-          />
+            android:text="测试登录（login接口测试）" />
 
 
         <Button
-            android:onClick="@{()->model.goViewPager2()}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{()->model.goViewPager2()}"
             android:text="viewpager2" />
+
+
+        <Button
+            android:onClick="@{()->model.goRoom()}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ROOM数据库" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
