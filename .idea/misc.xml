@@ -4,8 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/KtMvvm/app/src/main/res/layout/activity_main.xml" value="0.1875" />
+        <entry key="..\:/KtMvvm/demo/src/main/res/layout/activity_coordinator_layout.xml" value="0.36614583333333334" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/activity_main.xml" value="0.287962962962963" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/activity_main_new.xml" value="0.1875" />
+        <entry key="..\:/KtMvvm/demo/src/main/res/layout/rcv_item_layout.xml" value="0.36614583333333334" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/room_activity.xml" value="0.25" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/viewpager2_layout.xml" value="0.36614583333333334" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/viewpager_item_layout.xml" value="0.36614583333333334" />

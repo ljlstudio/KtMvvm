@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import com.kt.ktmvvm.basic.BaseViewModel
+import com.kt.ktmvvm.jetpack.coordinatorlayout.CoordinatorActivity
 import com.kt.ktmvvm.jetpack.room.RoomActivity
 import com.kt.ktmvvm.jetpack.viewpager.ViewPager2Activity
 import com.kt.ktmvvm.net.ApiException
@@ -62,5 +63,12 @@ open class MainViewModel(application: Application) : BaseViewModel(application) 
      */
     open fun goRoom() {
         startActivity(RoomActivity::class.java)
+    }
+
+    /**
+     * 进入coordinator
+     */
+    open fun goCoordinator() {
+        startActivity(CoordinatorActivity::class.java)
     }
 }

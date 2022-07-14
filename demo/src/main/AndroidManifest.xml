@@ -28,6 +28,10 @@
         <activity
             android:name=".jetpack.room.RoomActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".jetpack.coordinatorlayout.CoordinatorActivity"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>

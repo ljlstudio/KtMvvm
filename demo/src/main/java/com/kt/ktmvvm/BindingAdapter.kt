@@ -15,6 +15,10 @@ import java.util.*
 object BindingAdapter {
 
 
+    /**
+     * ------------------------------viewpager2相关配置-----------------------------------------------------
+     */
+
     @BindingAdapter("bindViewPagerOrigen")
     @JvmStatic
     fun setViewPagerOrigen(viewPager2: ViewPager2, boolean: Boolean) {
@@ -100,5 +104,44 @@ object BindingAdapter {
     @JvmStatic
     fun setViewPagerCurrentItem(viewPager2: ViewPager2, currentItem: Int) {
         viewPager2.setCurrentItem(currentItem, false)
+    }
+
+
+    /**
+     * ------------------------------recyclerview 相关配置-------------------------------------------
+     */
+
+
+    @BindingAdapter("bindRcvManager")
+    @JvmStatic
+    fun setRecyclerLayoutManager(
+        recyclerView: RecyclerView,
+        layoutManager: RecyclerView.LayoutManager
+    ) {
+        recyclerView.layoutManager = layoutManager
+    }
+
+    @BindingAdapter("bindRcvAdapter")
+    @JvmStatic
+    fun <T> setRecyclerAdapter(
+        recyclerView: RecyclerView,
+        adapter: BaseQuickAdapter<T, BaseViewHolder>
+    ) {
+        recyclerView.adapter = adapter
+    }
+
+    @BindingAdapter("bindRcvItemDecoration")
+    @JvmStatic
+    fun setRecyclerDuration(
+        recyclerView: RecyclerView,
+        itemDecoration: RecyclerView.ItemDecoration
+    ) {
+        recyclerView.addItemDecoration(itemDecoration)
+    }
+
+    @BindingAdapter("bindRcvHashSize")
+    @JvmStatic
+    fun setRcvHashSize(recyclerView: RecyclerView,boolean: Boolean){
+        recyclerView.setHasFixedSize(boolean)
     }
 }
