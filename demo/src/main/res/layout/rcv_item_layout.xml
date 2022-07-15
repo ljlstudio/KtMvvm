@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/roundedCornerImageStyle10"
+            app:shapeAppearanceOverlay="@style/roundedCornerImageStyle5"
             tools:background="@color/design_default_color_primary_variant" />
 
     </RelativeLayout>

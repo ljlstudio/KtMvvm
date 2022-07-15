@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">KtMvvm</string>
+
+    <string name="my_behavior">com.kt.ktmvvm.widget.MyBottomSheetBehavior</string>
 </resources>

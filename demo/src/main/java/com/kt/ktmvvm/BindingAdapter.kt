@@ -1,5 +1,6 @@
 package com.kt.ktmvvm
 
+import android.view.View
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -141,7 +142,27 @@ object BindingAdapter {
 
     @BindingAdapter("bindRcvHashSize")
     @JvmStatic
-    fun setRcvHashSize(recyclerView: RecyclerView,boolean: Boolean){
+    fun setRcvHashSize(recyclerView: RecyclerView, boolean: Boolean) {
         recyclerView.setHasFixedSize(boolean)
     }
+
+
+    @BindingAdapter("bindRcvListener")
+    @JvmStatic
+    fun setRcvListener(recyclerView: RecyclerView, listener: RecyclerView.OnScrollListener) {
+        recyclerView.addOnScrollListener(listener)
+    }
+
+
+    /**
+     * ------------------------------other----------------------------------------------------------
+     */
+
+    @BindingAdapter("bindViewTouchListener")
+    @JvmStatic
+    fun setViewTouchListener(view: View, touchListener: View.OnTouchListener) {
+        view.setOnTouchListener(touchListener)
+    }
+
+
 }

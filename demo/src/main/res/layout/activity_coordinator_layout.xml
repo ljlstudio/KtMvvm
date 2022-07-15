@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,17 +11,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#40E0D0">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_width="match_parent"
+
+        <include
+            android:id="@+id/bottom_sheelt"
+            layout="@layout/bottom_sheet_layout"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:bindRcvHashSize="@{true}"
-            app:bindRcvAdapter="@{model.adapter}"
-            app:bindRcvItemDecoration="@{model.itemDecoration}"
-            app:bindRcvManager="@{model.layoutManager}" />
+            bind:model="@{model}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
