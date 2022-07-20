@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.databinding.ObservableField
 import androidx.lifecycle.viewModelScope
 import com.kt.ktmvvm.basic.BaseViewModel
+import com.kt.ktmvvm.download.DownloadActivity
 import com.kt.ktmvvm.jetpack.coordinatorlayout.CoordinatorActivity
 import com.kt.ktmvvm.jetpack.room.RoomActivity
 import com.kt.ktmvvm.jetpack.viewpager.ViewPager2Activity
@@ -15,13 +16,6 @@ import kotlinx.coroutines.launch
 import kotlin.math.log
 
 open class MainViewModel(application: Application) : BaseViewModel(application) {
-
-    public var textName: ObservableField<String>? = ObservableField("您好")
-
-    override fun onCreate() {
-        super.onCreate()
-
-    }
 
     companion object {
         val TAG: String? = MainViewModel::class.simpleName
@@ -70,5 +64,12 @@ open class MainViewModel(application: Application) : BaseViewModel(application) 
      */
     open fun goCoordinator() {
         startActivity(CoordinatorActivity::class.java)
+    }
+
+    /**
+     * 进入下载器
+     */
+    open fun goDownloadManager() {
+        startActivity(DownloadActivity::class.java)
     }
 }

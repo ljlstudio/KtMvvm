@@ -1,14 +1,17 @@
 package com.kt.ktmvvm
 
 import android.view.View
+import android.widget.ProgressBar
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import com.google.android.material.imageview.ShapeableImageView
 import com.kt.ktmvvm.jetpack.adapter.ViewPagerAdapter
 import com.kt.ktmvvm.jetpack.viewpager.ScaleInTransformer
 import java.util.*
@@ -164,5 +167,20 @@ object BindingAdapter {
         view.setOnTouchListener(touchListener)
     }
 
+
+    @BindingAdapter("bindImgUrl")
+    @JvmStatic
+    fun setImgUrl(shapeableImageView: ShapeableImageView, url: String) {
+
+        Glide.with(MyApp.get()).asBitmap().load(
+            url
+        ).into(shapeableImageView)
+    }
+
+    @BindingAdapter("bindProgressBar")
+    @JvmStatic
+    fun setProgress(progressBar: ProgressBar,progress:Int){
+        progressBar.progress=progress
+    }
 
 }

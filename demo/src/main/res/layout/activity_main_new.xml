@@ -49,6 +49,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+        <Button
+            android:onClick="@{()->model.goDownloadManager()}"
+            android:text="DownloadManager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </layout>

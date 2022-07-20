@@ -3,9 +3,12 @@ package com.kt.ktmvvm
 import java.util.*
 
 object Constants {
-    private const val picture1: String = "https://photoos.macsc.com/180324/180324_6/li6RrxTLwk_small.jpg"
-    private const val picture2: String = "https://qq.yh31.com/tp/fj/202112221557442701.jpg"
-    private const val picture3: String = "https://i.pinimg.com/736x/65/4d/6f/654d6f9e8d2ff55210aa7bcfcf2d9bd6.jpg"
+
+    const val file1: String = "http://rf98uiuwl.hn-bkt.clouddn.com/nexus-3.31.1-01-win64.zip"
+    const val picture1: String = "https://photoos.macsc.com/180324/180324_6/li6RrxTLwk_small.jpg"
+    const val picture2: String = "https://qq.yh31.com/tp/fj/202112221557442701.jpg"
+    const val picture3: String =
+        "https://i.pinimg.com/736x/65/4d/6f/654d6f9e8d2ff55210aa7bcfcf2d9bd6.jpg"
     private const val picture4: String = "https://pic.3gbizhi.com/2014/1117/20141117022205523.jpg"
     private const val picture5: String =
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2sTFVhjwSqBVkO69KKf9fXHtnkz04LPrh_A&usqp=CAU"
@@ -18,38 +21,66 @@ object Constants {
     private const val picture9: String =
         "https://i.hexuexiao.cn/up/fd/4d/31/700b4ca96969f31317028e1af2314dfd.jpg"
     private const val picture10: String = "https://img95.699pic.com/photo/50067/7441.jpg_wh300.jpg"
-    private const val picture11: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDaHxoObfeCAHlIcYGBqUwC-QpuSO1QRsjtw&usqp=CAU"
-    private const val picture12: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmF5cQLOnoe6-kz4hDX6fY2Qg3qoWHiaAMRw&usqp=CAU"
-    private const val picture13: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-b_BErbObOwITa6EXIMQSTyZ_zdNQQbpndg&usqp=CAU"
-    private const val picture14: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQ7oRsH0MlkQnkrgCHoueUA9dc-dF0rTx0Lw&usqp=CAU"
-    private const val picture15: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCQQo-nxs8m_xnfAt_vu1Ty9VnUtRdNkQkCA&usqp=CAU"
-    private const val picture16: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTQc_hGMW4Wo5owYxwCmwnL7jTn5s6lb8zow&usqp=CAU"
-    private const val picture17: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkM-UsI8UgH3Nv_GHbjyGM-7UETJYtZvBjwQ&usqp=CAU"
-    private const val picture18: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDNtHvS8O_nMj7tfZMDCncdFutvU7CPg3M5A&usqp=CAU"
-    private const val picture19: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvy7a7lHpRgT2SrDy6WwRNca0NaIJCwLZ-Sg&usqp=CAU"
-    private const val picture20: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfU9LzuACi8_lFDGlvqsEU09J6byc__Jwnyw&usqp=CAU"
-    private const val picture21: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLlo73Zzoj8r6wHwJk80zShbJhicf9n1uBRA&usqp=CAU"
-    private const val picture22: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR70gWmGIHkFNmaJAJQQqi3lw9ReUtQSO3y3A&usqp=CAU"
-    private const val picture23: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHfM2VByt6tD0mKkXjPnfxdlOadzemjC3HGQ&usqp=CAU"
-    private const val picture24: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkoO0yywuAeRftckX45QAlk9wAekITq00l1g&usqp=CAU"
-    private const val picture25: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYAyak4-A4A2gMByOX6yWqm4o36T-lCsVOog&usqp=CAU"
-    private const val picture26: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9Muroz5ibCXq9CNCYweBWFgP_zd05cEcpaA&usqp=CAU"
-    private const val picture27: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNH26fqIWP0GOeZwTtQgvAFCE75zpp3PYnDw&usqp=CAU"
-    private const val picture28: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHxPt77N2gXnKBuIJX5_k5IEhJDJmueIsr_A&usqp=CAU"
-    private const val picture29: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2xEF0a-6GaisRlYvcun-pcoO7rTmhmCP-3Q&usqp=CAU"
-    private const val picture30: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRA0EBUlHr0n9TOHyDxvkszQ-0YEHJ2ikeoTw&usqp=CAU"
-    private const val picture31: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6ESBZiKmnmEGHXYCdHryeP0Nd52aB3tEyqQ&usqp=CAU"
-    private const val picture32: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtjpTrlpy8Qvn45fEdUkZvzF9enQuDZMiJhg&usqp=CAU"
-    private const val picture33: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaUOG4rOm9zceI8FJ0-KLhegTgWySMIIk80Q&usqp=CAU"
-    private const val picture34: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZxklSuuG75cfAirC1dUXQ85-3Pr1s9qThHA&usqp=CAU"
-    private const val picture35: String = "https://meituba.jmsla.cn/uploads/allimg/2019/03/14/141_12932.jpg"
-    private const val picture36: String = "https://t1.huishahe.com/uploads/tu/201604/76/njydtod5aau.jpg"
-    private const val picture37: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEGSoN0bb5FpeRs5eFQbSy3G-FAHT8-w73NQ&usqp=CAU"
-    private const val picture38: String = "http://www.ssfiction.com/wp-content/uploads/2020/08/20200806_5f2c559f81a22.jpg"
-    private const val picture39: String = "https://img36.dsjiejiu.com/wp-content/uploads/um1/c1sd334/209334/1.jpg"
-    private const val picture40: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3B2BdF9o5Uwfy_qm1H8jOX1dGJl1Zm3FhpQ&usqp=CAU"
-
-
+    private const val picture11: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDaHxoObfeCAHlIcYGBqUwC-QpuSO1QRsjtw&usqp=CAU"
+    private const val picture12: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmF5cQLOnoe6-kz4hDX6fY2Qg3qoWHiaAMRw&usqp=CAU"
+    private const val picture13: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-b_BErbObOwITa6EXIMQSTyZ_zdNQQbpndg&usqp=CAU"
+    private const val picture14: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQ7oRsH0MlkQnkrgCHoueUA9dc-dF0rTx0Lw&usqp=CAU"
+    private const val picture15: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCQQo-nxs8m_xnfAt_vu1Ty9VnUtRdNkQkCA&usqp=CAU"
+    private const val picture16: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTQc_hGMW4Wo5owYxwCmwnL7jTn5s6lb8zow&usqp=CAU"
+    private const val picture17: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkM-UsI8UgH3Nv_GHbjyGM-7UETJYtZvBjwQ&usqp=CAU"
+    private const val picture18: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDNtHvS8O_nMj7tfZMDCncdFutvU7CPg3M5A&usqp=CAU"
+    private const val picture19: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvy7a7lHpRgT2SrDy6WwRNca0NaIJCwLZ-Sg&usqp=CAU"
+    private const val picture20: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfU9LzuACi8_lFDGlvqsEU09J6byc__Jwnyw&usqp=CAU"
+    private const val picture21: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLlo73Zzoj8r6wHwJk80zShbJhicf9n1uBRA&usqp=CAU"
+    private const val picture22: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR70gWmGIHkFNmaJAJQQqi3lw9ReUtQSO3y3A&usqp=CAU"
+    private const val picture23: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHfM2VByt6tD0mKkXjPnfxdlOadzemjC3HGQ&usqp=CAU"
+    private const val picture24: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkoO0yywuAeRftckX45QAlk9wAekITq00l1g&usqp=CAU"
+    private const val picture25: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYAyak4-A4A2gMByOX6yWqm4o36T-lCsVOog&usqp=CAU"
+    private const val picture26: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9Muroz5ibCXq9CNCYweBWFgP_zd05cEcpaA&usqp=CAU"
+    private const val picture27: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNH26fqIWP0GOeZwTtQgvAFCE75zpp3PYnDw&usqp=CAU"
+    private const val picture28: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHxPt77N2gXnKBuIJX5_k5IEhJDJmueIsr_A&usqp=CAU"
+    private const val picture29: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2xEF0a-6GaisRlYvcun-pcoO7rTmhmCP-3Q&usqp=CAU"
+    private const val picture30: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRA0EBUlHr0n9TOHyDxvkszQ-0YEHJ2ikeoTw&usqp=CAU"
+    private const val picture31: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6ESBZiKmnmEGHXYCdHryeP0Nd52aB3tEyqQ&usqp=CAU"
+    private const val picture32: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtjpTrlpy8Qvn45fEdUkZvzF9enQuDZMiJhg&usqp=CAU"
+    private const val picture33: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaUOG4rOm9zceI8FJ0-KLhegTgWySMIIk80Q&usqp=CAU"
+    private const val picture34: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZxklSuuG75cfAirC1dUXQ85-3Pr1s9qThHA&usqp=CAU"
+    private const val picture35: String =
+        "https://meituba.jmsla.cn/uploads/allimg/2019/03/14/141_12932.jpg"
+    private const val picture36: String =
+        "https://t1.huishahe.com/uploads/tu/201604/76/njydtod5aau.jpg"
+    private const val picture37: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEGSoN0bb5FpeRs5eFQbSy3G-FAHT8-w73NQ&usqp=CAU"
+    private const val picture38: String =
+        "http://www.ssfiction.com/wp-content/uploads/2020/08/20200806_5f2c559f81a22.jpg"
+    private const val picture39: String =
+        "https://img36.dsjiejiu.com/wp-content/uploads/um1/c1sd334/209334/1.jpg"
+    private const val picture40: String =
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3B2BdF9o5Uwfy_qm1H8jOX1dGJl1Zm3FhpQ&usqp=CAU"
 
 
     val pictures: MutableList<String> = listOf(
@@ -61,20 +92,20 @@ object Constants {
         picture1, picture2, picture3,
         picture4, picture5, picture6,
         picture7, picture8, picture9,
-        picture10,  picture11,
-        picture12,  picture13,
-        picture14,  picture15,
-        picture16,  picture17,
-        picture18,  picture19,
-        picture20,  picture21,
-        picture22,  picture23,
-        picture24,  picture25,
-        picture26,  picture27,
-        picture28,  picture29,
-        picture30,  picture31,
-        picture32,  picture33,
-        picture34,  picture35,
-        picture36,  picture37,
-        picture38,  picture39
+        picture10, picture11,
+        picture12, picture13,
+        picture14, picture15,
+        picture16, picture17,
+        picture18, picture19,
+        picture20, picture21,
+        picture22, picture23,
+        picture24, picture25,
+        picture26, picture27,
+        picture28, picture29,
+        picture30, picture31,
+        picture32, picture33,
+        picture34, picture35,
+        picture36, picture37,
+        picture38, picture39
     ) as MutableList<String>
 }
