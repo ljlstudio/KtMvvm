@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="RingView_Style">
+        <attr name="ring_strokeColor" format="color" />
+        <attr name="ring_strokeWidth" format="dimension" />
+        <attr name="ring_arc_color" format="color" />
+        <attr name="ring_textSize" format="dimension|reference" />
+        <attr name="ring_textColor" format="color" />
+        <attr name="ring_type" format="enum">
+            <enum name="bound" value="1" />
+            <enum name="noneBound" value="2" />
+            <enum name="phone" value="3" />
+        </attr>
+    </declare-styleable>
+</resources>

@@ -17,11 +17,11 @@
 
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:id="@+id/progress_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -64,12 +64,10 @@
                         android:text="暂停" />
 
 
-
-
                     <Button
-                        android:onClick="@{()->model.cancelDownload(1)}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="@{()->model.cancelDownload(1)}"
                         android:text="取消" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -82,8 +80,6 @@
 
 
                 <ProgressBar
-                    android:progressDrawable="@drawable/progress"
-                    app:bindProgressBar="@{model.process2}"
                     android:id="@+id/progress_bar_2"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
@@ -92,6 +88,8 @@
                     android:layout_marginTop="10dp"
                     android:max="100"
                     android:progress="0"
+                    android:progressDrawable="@drawable/progress"
+                    app:bindProgressBar="@{model.process2}"
                     tools:progress="50" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -107,7 +105,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:onClick="@{()->model.downloadBigFile(2)}"
-                        android:text="下载图片2" />
+                        android:text="下载6mb压缩包" />
 
                     <Button
                         android:layout_width="wrap_content"
@@ -116,9 +114,9 @@
                         android:text="暂停" />
 
                     <Button
-                        android:onClick="@{()->model.cancelDownload(2)}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="@{()->model.cancelDownload(2)}"
                         android:text="取消" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -131,8 +129,6 @@
 
 
                 <ProgressBar
-                    android:progressDrawable="@drawable/progress"
-                    app:bindProgressBar="@{model.process3}"
                     android:id="@+id/progress_bar_3"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
@@ -141,6 +137,8 @@
                     android:layout_marginTop="10dp"
                     android:max="100"
                     android:progress="0"
+                    android:progressDrawable="@drawable/progress"
+                    app:bindProgressBar="@{model.process3}"
                     tools:progress="50" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -153,26 +151,40 @@
 
 
                     <Button
-                        android:onClick="@{()->model.downloadBigFile(3)}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="@{()->model.downloadBigFile(3)}"
                         android:text="下载图片3" />
 
                     <Button
-                        android:onClick="@{()->model.pauseDownload(3)}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="@{()->model.pauseDownload(3)}"
                         android:text="暂停" />
 
                     <Button
-                        android:onClick="@{()->model.cancelDownload(3)}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="@{()->model.cancelDownload(3)}"
                         android:text="取消" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </RelativeLayout>
 
+
+            <com.kt.ktmvvm.widget.RingView
+
+                app:ring_arc_color="@color/teal_200"
+                app:ring_strokeWidth="5dp"
+                app:ring_strokeColor="@color/purple_200"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                app:ring_textSize="20dp"
+                app:ring_textColor="@color/design_dark_default_color_error"
+                app:bindRingViewProgress="@{model.process2}"
+                tools:ignore="PrivateResource" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

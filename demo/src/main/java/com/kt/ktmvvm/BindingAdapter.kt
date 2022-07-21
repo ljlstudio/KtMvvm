@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.google.android.material.imageview.ShapeableImageView
 import com.kt.ktmvvm.jetpack.adapter.ViewPagerAdapter
 import com.kt.ktmvvm.jetpack.viewpager.ScaleInTransformer
+import com.kt.ktmvvm.widget.RingView
 import java.util.*
 
 object BindingAdapter {
@@ -179,8 +180,14 @@ object BindingAdapter {
 
     @BindingAdapter("bindProgressBar")
     @JvmStatic
-    fun setProgress(progressBar: ProgressBar,progress:Int){
-        progressBar.progress=progress
+    fun setProgress(progressBar: ProgressBar, progress: Int) {
+        progressBar.progress = progress
+    }
+
+    @BindingAdapter("bindRingViewProgress")
+    @JvmStatic
+    fun setRingProgress(ringView: RingView, int: Int) {
+        ringView.setVProgress(int.toFloat())
     }
 
 }

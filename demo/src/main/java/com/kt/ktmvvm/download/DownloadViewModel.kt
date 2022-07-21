@@ -20,7 +20,7 @@ class DownloadViewModel(application: Application) : BaseViewModel(application) {
     }
 
     var url1: ObservableField<String>? = ObservableField(Constants.file1)
-    var url2: ObservableField<String>? = ObservableField(Constants.picture2)
+    var url2: ObservableField<String>? = ObservableField(Constants.file2)
     var url3: ObservableField<String>? = ObservableField(Constants.picture3)
 
     var process1: ObservableField<Int>? = ObservableField(0)
@@ -52,7 +52,7 @@ class DownloadViewModel(application: Application) : BaseViewModel(application) {
             2 -> {
                 url = url2?.get()
                 tag = 2
-                name = "second.jpg"
+                name = "opencv.zip"
             }
             3 -> {
                 url = url3?.get()
@@ -125,19 +125,26 @@ class DownloadViewModel(application: Application) : BaseViewModel(application) {
         }
 
         override fun onFinish(download_file: File?, tag: Int?) {
-            Log.e(TAG, "download finish file path="+download_file?.path)
+            Log.e(TAG, "download finish file path=" + download_file?.path)
         }
 
         override fun onPause(downloadInfo: DownloadInfo?) {
-            Log.e(TAG,"download status is pause"+Thread.currentThread())
+            Log.e(TAG, "download status is pause" + Thread.currentThread())
         }
 
         override fun onCancel(downloadInfo: DownloadInfo?) {
-            Log.e(TAG,"download status is cancel"+Thread.currentThread())
+            Log.e(TAG, "download status is cancel" + Thread.currentThread())
+            when (downloadInfo?.getTag()) {
+                1 -> process1?.set(0)
+                2 -> process2?.set(0)
+                3 -> process3?.set(0)
+                else -> process1?.set(0)
+            }
+
         }
 
         override fun onFailure(error_msg: String?) {
-            Log.e(TAG,"download status is failure"+Thread.currentThread())
+            Log.e(TAG, "download status is failure" + Thread.currentThread())
         }
     }
 }

@@ -4,6 +4,7 @@ import java.util.*
 
 object Constants {
 
+    const val file2: String = "http://rf98uiuwl.hn-bkt.clouddn.com/libopencv_java4.zip"
     const val file1: String = "http://rf98uiuwl.hn-bkt.clouddn.com/nexus-3.31.1-01-win64.zip"
     const val picture1: String = "https://photoos.macsc.com/180324/180324_6/li6RrxTLwk_small.jpg"
     const val picture2: String = "https://qq.yh31.com/tp/fj/202112221557442701.jpg"

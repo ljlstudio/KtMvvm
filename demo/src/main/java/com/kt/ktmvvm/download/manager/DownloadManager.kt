@@ -89,6 +89,13 @@ class DownloadManager(context: Context?) {
 
     }
 
+    /**
+     *保存当前任务
+     */
+    fun saveDownloadInfo(key: String?, downloadInfo: MutableMap<String, DownloadInfo>?) {
+        key?.let { PrefsUtil.getInstance()?.putMap(it, downloadInfo) }
+    }
+
 
     /**
      * 设置最大并发
@@ -131,7 +138,7 @@ class DownloadManager(context: Context?) {
             val cancelInfo: DownloadInfo? = downloadInfo?.get(url)
             cancelInfo?.setDownloadState(DOWNLOAD_STATE_CANCLE)
             downloadInfo?.remove(cancelInfo?.getUrl())
-            PrefsUtil.getInstance()?.putMap(DOWNLOAD_MAPS, downloadInfo)
+            saveDownloadInfo(DOWNLOAD_MAPS, downloadInfo)
             val file = File(cancelInfo?.getTargetUrl().toString())
             if (file.exists()) file.delete()
         }
@@ -169,7 +176,7 @@ class DownloadManager(context: Context?) {
             val pauseInfo: DownloadInfo? = downloadInfo?.get(url)
             pauseInfo?.setDownloadState(DOWNLOAD_STATE_PAUSE)
             pauseInfo?.getUrl()?.let { downloadInfo?.put(it, pauseInfo) }
-            PrefsUtil.getInstance()?.putMap(DOWNLOAD_MAPS, downloadInfo)
+            saveDownloadInfo(DOWNLOAD_MAPS, downloadInfo)
         }
     }
 
@@ -233,7 +240,7 @@ class DownloadManager(context: Context?) {
             }
             info?.setDownloadState(DOWNLOAD_STATE_WAITING)
             info?.let { downloadInfo?.put(info.getUrl().toString(), it) }
-            PrefsUtil.getInstance()?.putMap(DOWNLOAD_MAPS, downloadInfo)
+            saveDownloadInfo(DOWNLOAD_MAPS, downloadInfo)
 
             request = if (isNormal) Request.Builder()
                 .addHeader(
@@ -258,7 +265,8 @@ class DownloadManager(context: Context?) {
                 info?.setFileName(fileName)
             }
             info?.let { downloadInfo?.put(info.getUrl().toString(), it) }
-            PrefsUtil.getInstance()?.putMap(DOWNLOAD_MAPS, downloadInfo)
+            saveDownloadInfo(DOWNLOAD_MAPS, downloadInfo)
+
             request = Request.Builder()
                 .url(info?.getUrl().toString())
                 .tag(info?.getUrl())
@@ -302,10 +310,7 @@ class DownloadManager(context: Context?) {
                     callBack?.onFailure(e.toString())
                     info?.setDownloadState(DOWNLOAD_STATE_FAIL)
                     info?.let { it1 -> downloadInfo?.put(info.getUrl().toString(), it1) }
-                    PrefsUtil.getInstance()?.putMap(
-                        DOWNLOAD_MAPS,
-                        downloadInfo
-                    )
+                    saveDownloadInfo(DOWNLOAD_MAPS, downloadInfo)
                 }
             }
 
@@ -330,10 +335,7 @@ class DownloadManager(context: Context?) {
                                 callBack?.onFailure("onResponse saveFile fail." + it.message)
                                 info?.setDownloadState(DOWNLOAD_STATE_FAIL)
                                 downloadInfo?.put(info?.getUrl()!!, info)
-                                PrefsUtil.getInstance()?.putMap(
-                                    DOWNLOAD_MAPS,
-                                    downloadInfo
-                                )
+                                saveDownloadInfo(DOWNLOAD_MAPS, downloadInfo)
                             }
                         }
 
@@ -344,14 +346,8 @@ class DownloadManager(context: Context?) {
                         info?.setDownloadState(DOWNLOAD_STATE_FINISH)
                         downloadInfo?.remove(info?.getUrl())
                         info?.let { it1 -> completeInfo?.put(info.getUrl().toString(), it1) }
-                        PrefsUtil.getInstance()?.putMap(
-                            DOWNLOAD_MAPS,
-                            downloadInfo
-                        )
-                        PrefsUtil.getInstance()?.putMap(
-                            COMPLETE_MAPS,
-                            completeInfo
-                        )
+                        saveDownloadInfo(DOWNLOAD_MAPS, downloadInfo)
+                        saveDownloadInfo(COMPLETE_MAPS, completeInfo)
                     }
 
                 } else {
@@ -360,10 +356,7 @@ class DownloadManager(context: Context?) {
                             callBack?.onFailure("fail status=" + response.code())
                             info?.setDownloadState(DOWNLOAD_STATE_FAIL)
                             info?.let { it1 -> downloadInfo?.put(info.getUrl().toString(), it1) }
-                            PrefsUtil.getInstance()?.putMap(
-                                DOWNLOAD_MAPS,
-                                downloadInfo
-                            )
+                            saveDownloadInfo(DOWNLOAD_MAPS, downloadInfo)
                         }
 
                 }
@@ -373,5 +366,6 @@ class DownloadManager(context: Context?) {
 
         }
     }
+
 
 }
