@@ -37,7 +37,6 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel> : RxAppComp
 
 
     private fun registerUIChangeLiveDataCallBack() {
-        //跳入新页面
 
         //跳入新页面
         viewModel?.getUC()?.getStartActivityEvent()?.observe(this) { params ->
@@ -137,12 +136,21 @@ abstract class BaseActivity<V : ViewDataBinding, VM : BaseViewModel> : RxAppComp
     }
 
 
+    /**
+     * 提供livedata 或者flow 数据流观察回调
+     */
     override fun initViewObservable() {
     }
 
 
+    /**
+     * 返回vaeriableId
+     */
     abstract fun initVariableId(): Int
 
+    /**
+     * 返回布局id
+     */
     abstract fun initContentView(savedInstanceState: Bundle?): Int
 
 }

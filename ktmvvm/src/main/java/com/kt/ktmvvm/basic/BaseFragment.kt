@@ -140,9 +140,15 @@ abstract class BaseFragment<V : ViewDataBinding, VM : BaseViewModel> : RxFragmen
         return ViewModelProvider(fragment!!)[cls!!]
     }
 
+    /**
+     * 返回variableid
+     */
     abstract fun initVariableId(): Int
 
 
+    /**
+     * 返回布局id
+     */
     abstract fun initContentView(
         inflater: LayoutInflater?,
         container: ViewGroup?,

@@ -12,6 +12,8 @@ import com.kt.ktmvvm.jetpack.room.RoomActivity
 import com.kt.ktmvvm.jetpack.viewpager.ViewPager2Activity
 import com.kt.ktmvvm.net.ApiException
 import com.kt.ktmvvm.net.DataService
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.math.log
 
@@ -41,6 +43,24 @@ open class MainViewModel(application: Application) : BaseViewModel(application) 
             Log.d(TAG, "the error is" + it.message)
         })
 
+    }
+
+    /**
+     * 任意地方调用
+     */
+    open fun notViewModelLogin() {
+        DataService.launch({
+            val login = DataService.login(1, "admin", "admin")
+
+            if (login.getErrCode() == 200) {
+                var data = login.getData()
+            } else {
+                ApiException(-1, "返回结果出错")
+            }
+        }, onError = {
+
+            Log.d(TAG, "the error is" + it.message)
+        })
     }
 
 
