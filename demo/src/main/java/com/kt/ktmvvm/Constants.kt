@@ -4,6 +4,10 @@ import java.util.*
 
 object Constants {
 
+    const val pic="http://rf98uiuwl.hn-bkt.clouddn.com/pexels-edmond-dant%C3%A8s-8070561.jpg"
+    const val pic2="http://rf98uiuwl.hn-bkt.clouddn.com/pexels-eberhard-grossgasteiger-1743366.jpg"
+    const val pic3="http://rf98uiuwl.hn-bkt.clouddn.com/ddd.jpg"
+
     const val file2: String = "http://rf98uiuwl.hn-bkt.clouddn.com/libopencv_java4.zip"
     const val file1: String = "http://rf98uiuwl.hn-bkt.clouddn.com/nexus-3.31.1-01-win64.zip"
     const val picture1: String = "https://photoos.macsc.com/180324/180324_6/li6RrxTLwk_small.jpg"

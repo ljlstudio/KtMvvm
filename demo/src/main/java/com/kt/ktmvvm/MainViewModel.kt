@@ -12,6 +12,7 @@ import com.kt.ktmvvm.jetpack.room.RoomActivity
 import com.kt.ktmvvm.jetpack.viewpager.ViewPager2Activity
 import com.kt.ktmvvm.net.ApiException
 import com.kt.ktmvvm.net.DataService
+import com.kt.ktmvvm.ui.MosaicActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -91,5 +92,12 @@ open class MainViewModel(application: Application) : BaseViewModel(application) 
      */
     open fun goDownloadManager() {
         startActivity(DownloadActivity::class.java)
+    }
+
+    /**
+     * 马赛克
+     */
+    open fun goMosaic() {
+        startActivity(MosaicActivity::class.java)
     }
 }

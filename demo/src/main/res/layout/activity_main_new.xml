@@ -55,6 +55,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+        <Button
+            android:onClick="@{()->model.goMosaic()}"
+            android:text="马赛克（Mosaic）"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </layout>

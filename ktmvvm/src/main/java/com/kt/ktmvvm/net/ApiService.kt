@@ -26,4 +26,4 @@ interface ApiService {
      */
     @POST(ApiAddress.LOGIN)
     suspend fun loginBody(@Body requestBody: RequestBody): BaseResponse<Any>
-}
+} 
