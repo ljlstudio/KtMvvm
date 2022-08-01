@@ -106,13 +106,14 @@ object MosaicUtil {
 
     private fun drawPicture(path: Path?, left: Float, top: Float) {
 
-        path?.moveTo((left + sqrt(3.0) * 10 / 2.0).toFloat(), top)
-        path?.lineTo(left, top + 10 / 2)
-        path?.lineTo(left, top + 1.5f * 10)
-        path?.lineTo((left + sqrt(3.0) * 10 / 2.0f).toFloat(), top + 2 * 10)
-        path?.lineTo((left + sqrt(3.0) * 10).toFloat(), top + 1.5f * 10)
-        path?.lineTo((left + sqrt(3.0) * 10).toFloat(), top + 10 / 2.0f)
-        path?.lineTo((left + sqrt(3.0) * 10 / 2.0).toFloat(), top)
+        val temp=10
+        path?.moveTo((left + sqrt(3.0) * temp / 2.0).toFloat(), top)
+        path?.lineTo(left, top + temp / 2)
+        path?.lineTo(left, top + 1.5f * temp)
+        path?.lineTo((left + sqrt(3.0) * temp / 2.0f).toFloat(), top + 2 * temp)
+        path?.lineTo((left + sqrt(3.0) * temp).toFloat(), top + 1.5f * temp)
+        path?.lineTo((left + sqrt(3.0) * temp).toFloat(), top + temp / 2.0f)
+        path?.lineTo((left + sqrt(3.0) * temp / 2.0).toFloat(), top)
         path?.close()
     }
 

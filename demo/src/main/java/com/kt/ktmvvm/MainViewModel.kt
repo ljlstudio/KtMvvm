@@ -9,6 +9,7 @@ import com.kt.ktmvvm.basic.BaseViewModel
 import com.kt.ktmvvm.download.DownloadActivity
 import com.kt.ktmvvm.jetpack.coordinatorlayout.CoordinatorActivity
 import com.kt.ktmvvm.jetpack.room.RoomActivity
+import com.kt.ktmvvm.jetpack.shapeableimageview.ShapeImageActivity
 import com.kt.ktmvvm.jetpack.viewpager.ViewPager2Activity
 import com.kt.ktmvvm.net.ApiException
 import com.kt.ktmvvm.net.DataService
@@ -99,5 +100,13 @@ open class MainViewModel(application: Application) : BaseViewModel(application) 
      */
     open fun goMosaic() {
         startActivity(MosaicActivity::class.java)
+    }
+
+
+    /**
+     * shape view
+     */
+    open fun goShape(){
+        startActivity(ShapeImageActivity::class.java)
     }
 }
