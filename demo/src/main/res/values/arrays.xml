@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="mosaic">
+        <item>方形马赛克</item>
+        <item>圆形马赛克</item>
+        <item>六边形马赛克</item>
+        <item>模糊效果</item>
+    </string-array>
+
+</resources>

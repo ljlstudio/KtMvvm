@@ -1,6 +1,11 @@
 package com.kt.ktmvvm.widget.mosic
 
+import android.annotation.SuppressLint
 import android.graphics.*
+import com.kt.ktmvvm.MyApp
+import com.kt.ktmvvm.R
+import kotlin.math.ceil
+import kotlin.math.sqrt
 
 object MosaicUtil {
     enum class Effect {
@@ -11,6 +16,14 @@ object MosaicUtil {
         MOSAIC, MosaicType, ERASER
     }
 
+    enum class MosaicFormType {
+        RECT,//方形
+        CIRCLE,//圆形
+        HEXAGONS,//六边形
+
+    }
+
+
     /**
      * 马赛克效果(Native)
      *
@@ -19,13 +32,17 @@ object MosaicUtil {
      * @param
      * @return 马赛克图片
      */
-    fun getMosaic(bitmap: Bitmap?): Bitmap? {
+    @SuppressLint("UseCompatLoadingForDrawables")
+    fun getMosaic(bitmap: Bitmap?, type: MosaicFormType): Bitmap? {
         if (bitmap == null) {
             return null
         }
         val width = bitmap.width
         val height = bitmap.height
-        val grid = 50
+        val grid = 30//每个块的大小,
+
+
+
         val radius = width / grid
 
         val mosaicBitmap = Bitmap.createBitmap(
@@ -33,14 +50,14 @@ object MosaicUtil {
             Bitmap.Config.ARGB_8888
         )
         val canvas = Canvas(mosaicBitmap)
-        val horCount = Math.ceil((width / radius.toFloat()).toDouble()).toInt()
-        val verCount = Math.ceil((height / radius.toFloat()).toDouble()).toInt()
+        val horCount = ceil((width / radius.toFloat()).toDouble()).toInt()
+        val verCount = ceil((height / radius.toFloat()).toDouble()).toInt()
         val paint = Paint()
         paint.isAntiAlias = true
         for (horIndex in 0 until horCount) {
-            val y = (horCount - 0.5f) * 50
+            val y = (horCount - 0.5f) * grid
             for (verIndex in 0 until verCount) {
-                val x = (verIndex - 0.5f) * 50
+                val x = (verIndex - 0.5f) * grid
                 val l = radius * horIndex
                 val t = radius * verIndex
                 var r = l + radius
@@ -54,11 +71,49 @@ object MosaicUtil {
                 val color = bitmap.getPixel(l, t)
                 val rect = Rect(l, t, r, b)
                 paint.color = color
-                canvas.drawRect(rect, paint)
+//
+                when (type) {
+                    MosaicFormType.RECT -> {
+                        canvas.drawRect(rect, paint)
+                    }
+                    MosaicFormType.CIRCLE -> {
+                        canvas.drawRoundRect(
+                            RectF(
+                                l.toFloat(),
+                                t.toFloat(),
+                                r.toFloat(),
+                                b.toFloat()
+                            ), width.toFloat(), height.toFloat(), paint
+                        )
+                    }
+                    MosaicFormType.HEXAGONS -> {
+                        val path = Path()
+                        drawPicture(path, l.toFloat(), t.toFloat())
+                        canvas.drawPath(path, paint)
+                    }
+
+                }
+
+
+
+
             }
         }
         canvas.save()
         return mosaicBitmap
+    }
+
+
+    private fun drawPicture(path: Path?, left: Float, top: Float) {
+
+        path?.moveTo((left + sqrt(3.0) * 10 / 2.0).toFloat(), top)
+        path?.lineTo(left, top + 10 / 2)
+        path?.lineTo(left, top + 1.5f * 10)
+        path?.lineTo((left + sqrt(3.0) * 10 / 2.0f).toFloat(), top + 2 * 10)
+        path?.lineTo((left + sqrt(3.0) * 10).toFloat(), top + 1.5f * 10)
+        path?.lineTo((left + sqrt(3.0) * 10).toFloat(), top + 10 / 2.0f)
+        path?.lineTo((left + sqrt(3.0) * 10 / 2.0).toFloat(), top)
+        path?.close()
     }
 
 
@@ -177,7 +232,7 @@ object MosaicUtil {
         return mBitmap
     }
 
-    fun getCirleBitmap(bmp: Bitmap): Bitmap? {
+    fun getCircleBitmap(bmp: Bitmap): Bitmap? {
         //获取bmp的宽高 小的一个做为圆的直径r
         val w = bmp.width
         val h = bmp.height

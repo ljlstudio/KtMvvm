@@ -1,6 +1,7 @@
 package com.kt.ktmvvm
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
 import com.kt.ktmvvm.basic.BaseActivity
@@ -10,7 +11,6 @@ class MainActivity : BaseActivity<ActivityMainNewBinding, MainViewModel>() {
 
 
     override fun initParam() {
-
     }
 
 

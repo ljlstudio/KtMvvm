@@ -1,7 +1,9 @@
 package com.kt.ktmvvm
 
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ProgressBar
+import android.widget.Spinner
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -190,4 +192,9 @@ object BindingAdapter {
         ringView.setVProgress(int.toFloat())
     }
 
+    @BindingAdapter("bindSpinnerListener")
+    @JvmStatic
+    fun setSpinnerListener(spinner: Spinner,itemClickListener: AdapterView.OnItemSelectedListener){
+        spinner.onItemSelectedListener=itemClickListener
+    }
 }

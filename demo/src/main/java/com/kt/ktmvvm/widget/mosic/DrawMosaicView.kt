@@ -188,11 +188,18 @@ class DrawMosaicView : ViewGroup {
     }
 
     /**
+     * 获取原始图
+     */
+    fun getBackLayer(): Bitmap? {
+        return bmBaseLayer
+    }
+
+    /**
      * 设置马赛克样式资源
      *
      * @param bitmap 样式图片资源
      */
-    fun setMosaicResource(bitmap: Bitmap) {
+    fun setMosaicResource(bitmap: Bitmap?) {
         setMosaicType(MosaicUtil.MosaicType.MOSAIC)
         bmCoverLayer?.recycle()
         erasePaths?.clear()
@@ -204,13 +211,13 @@ class DrawMosaicView : ViewGroup {
         invalidate()
     }
 
-    private fun getBitmap(bit: Bitmap): Bitmap {
+    private fun getBitmap(bit: Bitmap?): Bitmap {
         val bitmap = Bitmap.createBitmap(
             mImageWidth, mImageHeight,
             Bitmap.Config.ARGB_8888
         )
         val canvas = Canvas(bitmap)
-        canvas.drawBitmap(bit, 0f, 0f, null)
+        canvas.drawBitmap(bit!!, 0f, 0f, null)
         canvas.save()
         return bitmap
     }
@@ -349,7 +356,9 @@ class DrawMosaicView : ViewGroup {
                 erasePaths?.add(touchPath!!)
             }
         } else if (action == MotionEvent.ACTION_MOVE) {
-            touchPath!!.drawPath!!.lineTo(x.toFloat(), y.toFloat())
+            touchPath?.drawPath?.lineTo(x.toFloat(), y.toFloat())
+
+//            drawPicture(touchPath)
             updatePathMosaic()
             invalidate()
         }
@@ -357,19 +366,19 @@ class DrawMosaicView : ViewGroup {
 
     }
 
-
+    //
     //画六边形
-    private fun drawPicture(path: MosaicPath) {
+    private fun drawPicture(path: MosaicPath?) {
         val left = ((mImageWidth - sqrt1(3.0) * 10) / 2.0).toFloat()
         val top = ((mImageHeight - 2 * 10) / 2.0).toFloat()
-        path.drawPath!!.moveTo((left + sqrt1(3.0) * 10 / 2.0).toFloat(), top)
-        path.drawPath!!.lineTo(left, top + 10 / 2)
-        path.drawPath!!.lineTo(left, top + 1.5f * 10)
-        path.drawPath!!.lineTo((left + sqrt1(3.0) * 10 / 2.0f).toFloat(), top + 2 * 10)
-        path.drawPath!!.lineTo((left + sqrt1(3.0) * 10).toFloat(), top + 1.5f * 10)
-        path.drawPath!!.lineTo((left + sqrt1(3.0) * 10).toFloat(), top + 10 / 2.0f)
-        path.drawPath!!.lineTo((left + sqrt1(3.0) * 10 / 2.0).toFloat(), top)
-        path.drawPath!!.close()
+        path?.drawPath?.moveTo((left + sqrt1(3.0) * 10 / 2.0).toFloat(), top)
+        path?.drawPath?.lineTo(left, top + 10 / 2)
+        path?.drawPath?.lineTo(left, top + 1.5f * 10)
+        path?.drawPath?.lineTo((left + sqrt1(3.0) * 10 / 2.0f).toFloat(), top + 2 * 10)
+        path?.drawPath?.lineTo((left + sqrt1(3.0) * 10).toFloat(), top + 1.5f * 10)
+        path?.drawPath?.lineTo((left + sqrt1(3.0) * 10).toFloat(), top + 10 / 2.0f)
+        path?.drawPath?.lineTo((left + sqrt1(3.0) * 10 / 2.0).toFloat(), top)
+        path?.drawPath?.close()
     }
 
 
@@ -402,7 +411,10 @@ class DrawMosaicView : ViewGroup {
             val pathTemp = path.drawPath
             val drawWidth = path.paintWidth
             paint.strokeWidth = drawWidth.toFloat()
+
             canvas.drawPath(pathTemp!!, paint)
+
+
         }
         paint.color = Color.TRANSPARENT
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)

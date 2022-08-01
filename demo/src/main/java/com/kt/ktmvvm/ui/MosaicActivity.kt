@@ -18,6 +18,7 @@ import com.kt.ktmvvm.utils.BannerUtils
 import com.kt.ktmvvm.utils.DisplayUtils
 import com.kt.ktmvvm.widget.mosic.DrawMosaicView
 import com.kt.ktmvvm.widget.mosic.MosaicUtil
+import kotlinx.android.synthetic.main.bottom_sheet_layout.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -34,30 +35,66 @@ class MosaicActivity : BaseActivity<ActivityMosaicLayoutBinding, MosaicViewModel
     @SuppressLint("CheckResult")
     override fun initParam() {
 
+
         viewModel?.bitmapValue?.observe(this, Observer {
-            binding?.mosaic?.apply {
+            it?.let {
+                binding?.mosaic?.apply {
 
-                lifecycleScope.launch {
-                    viewModel?.map?.collect {
-                        it?.let {
-                            layoutParams.width = it.width
-                            layoutParams.height = it.height
-                            setMosaicBackgroundResource(it, true)
-                            val bit = MosaicUtil.bitmapMosaic(it, 20)
+                    layoutParams.width = it.width
+                    layoutParams.height = it.height
+                    setMosaicBackgroundResource(it, true)
+                    val bit = MosaicUtil.getMosaic(it, MosaicUtil.MosaicFormType.RECT)
 
-                            if (bit?.isRecycled == false) {
-                                binding?.mosaic?.setMosaicResource(bit)
-                                binding?.mosaic?.setMosaicBrushWidth(50)
-                                binding?.mosaic?.setOnMosaicStateListener(viewModel!!)
-                            }
-                        }
+                    if (bit?.isRecycled == false) {
+                        binding?.mosaic?.setMosaicResource(bit)
+                        binding?.mosaic?.setMosaicBrushWidth(50)
+                        binding?.mosaic?.setOnMosaicStateListener(viewModel!!)
+                    }
+                }
+            }
+        })
+
+
+        viewModel?.undo?.observe(this) {
+            binding?.mosaic?.undoMosaic()
+        }
+
+
+        viewModel?.mosaicType?.observe(this) { it1 ->
+            val backLayer = binding?.mosaic?.getBackLayer()
+            var bit: Bitmap?
+            backLayer?.let {
+                bit = when (it1) {
+                    0 -> {
+                        //方形马赛克
+                        MosaicUtil.getMosaic(backLayer, MosaicUtil.MosaicFormType.RECT)
+                    }
+                    1 -> {
+                        MosaicUtil.getMosaic(backLayer, MosaicUtil.MosaicFormType.CIRCLE)
+                    }
+                    2 -> {
+                        MosaicUtil.getMosaic(backLayer, MosaicUtil.MosaicFormType.HEXAGONS)
+                    }
+                    else -> {
+                        MosaicUtil.getMosaic(backLayer, MosaicUtil.MosaicFormType.RECT)
+                    }
+
+                }
+                bit?.let {
+                    if (bit?.isRecycled == false) {
+                        binding?.mosaic?.setMosaicResource(bit)
                     }
                 }
 
 
             }
-        })
+
+        }
     }
 
 
+    override fun onDestroy() {
+        super.onDestroy()
+        binding?.mosaic?.destroy()
+    }
 }
