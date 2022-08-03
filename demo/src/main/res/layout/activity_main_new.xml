@@ -45,6 +45,7 @@
             android:layout_height="wrap_content"/>
 
         <Button
+            android:onClick="@{()->model.goCamera()}"
             android:text="CameraX"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

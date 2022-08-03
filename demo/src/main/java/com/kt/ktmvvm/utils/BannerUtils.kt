@@ -6,7 +6,9 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
 import android.os.Build
+import android.os.Environment
 import android.text.TextUtils
+import androidx.core.content.ContextCompat
 import okhttp3.Response
 import java.io.File
 import java.io.FileOutputStream
@@ -199,5 +201,29 @@ object BannerUtils {
             e.printStackTrace()
         }
         return degree
+    }
+
+
+    /**
+     * 获取视频缓存绝对路径
+     *
+     * @param context
+     * @return
+     */
+    fun getCameraPath(context: Context?): String {
+        var directoryPath: String
+        // 判断外部存储是否可用，如果不可用则使用内部存储路径
+
+        //生成路径
+        val appDir = File(
+            ContextCompat.getExternalFilesDirs(context!!, Environment.DIRECTORY_DCIM)[0].absolutePath+"/Camera" + File.separator
+        )
+        if (!appDir.exists()) {
+            appDir.mkdirs()
+        }
+
+        val name = System.currentTimeMillis().toString() + ".jpg"
+        val file1 = File(appDir, name)
+        return file1.absolutePath
     }
 }
