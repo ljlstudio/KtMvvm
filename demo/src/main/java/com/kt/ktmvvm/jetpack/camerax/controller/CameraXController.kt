@@ -7,8 +7,11 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
+import android.util.Rational
 import android.widget.Toast
 import androidx.camera.core.*
+import androidx.camera.core.FocusMeteringAction.FLAG_AE
+import androidx.camera.core.FocusMeteringAction.FLAG_AF
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.video.*
 import androidx.camera.video.VideoCapture
@@ -19,8 +22,10 @@ import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import java.lang.invoke.MethodType
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class CameraXController(fragmentActivity: FragmentActivity, private var preview: PreviewView?) :
     ICameraController {
@@ -30,6 +35,9 @@ class CameraXController(fragmentActivity: FragmentActivity, private var preview:
     private var imageCapture: ImageCapture? = null
     private var videoCapture: VideoCapture<Recorder>? = null
     private var recording: Recording? = null
+    private var cameraProvider: ProcessCameraProvider? = null
+    private var cameraSelector: CameraSelector? = CameraSelector.DEFAULT_BACK_CAMERA
+    private var cameraControl: CameraControl? = null
 
     companion object {
         val TAG: String = CameraController::class.java.simpleName
@@ -40,9 +48,9 @@ class CameraXController(fragmentActivity: FragmentActivity, private var preview:
     private var mLifecycleOwner: FragmentActivity? = fragmentActivity
 
     /**
-     * 打开相机
+     * 打开相机预览
      */
-    override fun openCamera() {
+    override fun openCameraPreView() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(mLifecycleOwner!!)
 
         cameraProviderFuture.addListener({
@@ -52,15 +60,22 @@ class CameraXController(fragmentActivity: FragmentActivity, private var preview:
 
             // Preview 预览流
             val preview = Preview.Builder()
+                //设置分辨率
+                .setTargetAspectRatio(AspectRatio.RATIO_4_3)
                 .build()
                 .also {
                     it.setSurfaceProvider(preview?.surfaceProvider)
                 }
 
+
             //图像捕捉
             imageCapture = ImageCapture.Builder()
+                .setTargetAspectRatio(AspectRatio.RATIO_4_3)
                 .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
                 .build()
+
+
+//            imageCapture?.setCropAspectRatio(Rational(this.preview?.width!!, this.preview?.height!!))
 
             //视频帧捕捉
             val recorder = Recorder.Builder()
@@ -75,14 +90,8 @@ class CameraXController(fragmentActivity: FragmentActivity, private var preview:
             videoCapture = withOutput(recorder)
 
 
-            //预览帧回调，可用这个方法去创建实时美颜、设置分辨率比例
-//            val imageAnalyzer = ImageAnalysis.Builder()
+//            val imageAnalysis = ImageAnalysis.Builder().setTargetAspectRatio(AspectRatio.RATIO_4_3)
 //                .build()
-//                .also {
-//                    it.setAnalyzer(cameraExecutor, LuminosityAnalyzer { luma ->
-//                        Log.d(TAG, "Average luminosity: $luma")
-//                    })
-//                }
 
 
             //选择后置摄像头
@@ -94,9 +103,17 @@ class CameraXController(fragmentActivity: FragmentActivity, private var preview:
 
                 // 绑定输出
                 camera = cameraProvider.bindToLifecycle(
-                    mLifecycleOwner!!, cameraSelector, imageCapture, preview, videoCapture
+                    mLifecycleOwner!!,
+                    cameraSelector,
+                    preview,
+                    imageCapture,
+                    videoCapture
+
                 )
 
+                cameraControl = camera?.cameraControl
+
+                focus(this.preview?.width?.div(2f)!!, this.preview?.height?.div(2f)!!,true)
             } catch (exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
             }
@@ -206,15 +223,65 @@ class CameraXController(fragmentActivity: FragmentActivity, private var preview:
                         } else {
                             recording?.close()
                             recording = null
+
                             Log.e(
                                 TAG, "Video capture ends with error: " +
-                                        "${recordEvent.error}"
+                                        "${recordEvent.cause?.message}"
+
+
                             )
                         }
 
                     }
                 }
             }
+    }
+
+    /**
+     * 手动聚焦
+     */
+    @SuppressLint("RestrictedApi")
+    override fun focus(x: Float, y: Float, auto: Boolean) {
+        cameraControl?.cancelFocusAndMetering()
+        val createPoint: MeteringPoint = if (auto) {
+
+            val meteringPointFactory = DisplayOrientedMeteringPointFactory(
+                preview?.display!!,
+                camera?.cameraInfo!!,
+                preview?.width?.toFloat()!!,
+                preview?.height?.toFloat()!!
+            )
+            meteringPointFactory.createPoint(x, y)
+        } else {
+            val meteringPointFactory = preview?.meteringPointFactory
+            meteringPointFactory?.createPoint(x, y)!!
+        }
+
+
+        val build = FocusMeteringAction.Builder(createPoint, FLAG_AF)
+            .setAutoCancelDuration(3, TimeUnit.SECONDS)
+            .build()
+
+        val future = cameraControl?.startFocusAndMetering(build)
+
+
+        future?.addListener({
+            try {
+
+                if (future.get().isFocusSuccessful) {
+                    //聚焦成功
+                    Log.e(TAG, "聚焦成功")
+                } else {
+                    //聚焦失败
+                    Log.e(TAG, "聚焦失败")
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "异常" + e.message)
+            }
+
+        }, ContextCompat.getMainExecutor(mLifecycleOwner!!))
+
+
     }
 
 

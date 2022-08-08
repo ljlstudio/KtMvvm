@@ -14,8 +14,10 @@ import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.google.android.material.imageview.ShapeableImageView
-import com.kt.ktmvvm.jetpack.adapter.ViewPagerAdapter
 import com.kt.ktmvvm.jetpack.viewpager.ScaleInTransformer
+import com.kt.ktmvvm.widget.CameraPreView
+import com.kt.ktmvvm.widget.CameraTabView
+import com.kt.ktmvvm.widget.RecordButton
 import com.kt.ktmvvm.widget.RingView
 import java.util.*
 
@@ -194,7 +196,50 @@ object BindingAdapter {
 
     @BindingAdapter("bindSpinnerListener")
     @JvmStatic
-    fun setSpinnerListener(spinner: Spinner,itemClickListener: AdapterView.OnItemSelectedListener){
-        spinner.onItemSelectedListener=itemClickListener
+    fun setSpinnerListener(
+        spinner: Spinner,
+        itemClickListener: AdapterView.OnItemSelectedListener
+    ) {
+        spinner.onItemSelectedListener = itemClickListener
+    }
+
+
+    @BindingAdapter("bindRecordListener")
+    @JvmStatic
+    fun setRecordListener(recordButton: RecordButton, listener: RecordButton.RecordStateListener) {
+        recordButton.addRecordStateListener(listener)
+    }
+
+    @BindingAdapter("bindCameraTabList")
+    @JvmStatic
+    fun setCameraTabList(cameraTabView: CameraTabView, list: MutableList<String>) {
+        if (list.size > 0) {
+            for (item in list.indices) {
+                cameraTabView.addTab(cameraTabView.newTab().setText(list[item]))
+            }
+        }
+        cameraTabView.setIndicateCenter(true)
+        cameraTabView.setScrollAutoSelected(true)
+
+    }
+
+
+    @BindingAdapter("bindCameraTabListener")
+    @JvmStatic
+    fun setCameraTabListener(cameraTabView: CameraTabView,onTabSelectedListener: CameraTabView.OnTabSelectedListener){
+        cameraTabView.addOnTabSelectedListener(onTabSelectedListener)
+    }
+
+    @BindingAdapter("bindRecordButtonStatus")
+    @JvmStatic
+    fun setRecordButtonStatus(recordButton: RecordButton,boolean: Boolean){
+        recordButton.setRecordEnable(boolean)
+    }
+
+
+    @BindingAdapter("bindCameraPreViewListener")
+    @JvmStatic
+    fun setCameraPreViewListener(cameraPreView: CameraPreView,listener: CameraPreView.OnCameraPreViewListener){
+        cameraPreView.setOnCameraPreViewListener(listener)
     }
 }

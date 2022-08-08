@@ -23,9 +23,13 @@ object DisplayUtils {
      * @param dipValue （DisplayMetrics类中属性density）
      * @return
      */
-    fun dip2px(context: Context?, dipValue: Float?): Int {
+    fun dip2px(context: Context?, dipValue: Float): Int {
         val scale = context?.resources?.displayMetrics?.density
-        return (dipValue!! * scale!! + 0.5f).toInt()
+        scale?.let {
+
+            return (dipValue * scale + 0.5f).toInt()
+        }
+        return 0
     }
 
 

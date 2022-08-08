@@ -66,6 +66,6 @@ dependencies {
     implementation "androidx.camera:camera-video:${camerax_version}"
     implementation "androidx.camera:camera-view:${camerax_version}"
     implementation "androidx.camera:camera-extensions:${camerax_version}"
-
+    api 'com.blankj:utilcodex:1.31.0' //工具类
 
 }

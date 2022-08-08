@@ -2,4 +2,7 @@
     <string name="app_name">KtMvvm</string>
 
     <string name="my_behavior">com.kt.ktmvvm.widget.MyBottomSheetBehavior</string>
+    <string name="second_format">00:%1$02d:%2$02d</string>
+    <string name="minute_second_format">%1$02d:%2$02d:%3$02d</string>
+    <string name="minute_second_format1">%1$03d:%2$02d:%3$02d</string>
 </resources>

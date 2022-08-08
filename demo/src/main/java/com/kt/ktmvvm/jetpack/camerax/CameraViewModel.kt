@@ -8,19 +8,34 @@ import android.app.Application
 import android.content.pm.PackageManager
 import android.graphics.Insets.add
 import android.os.Build
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.databinding.ObservableField
 
 import com.kt.ktmvvm.basic.BaseViewModel
 import com.kt.ktmvvm.basic.SingleLiveEvent
 import com.kt.ktmvvm.jetpack.camerax.controller.CameraXController
+import com.kt.ktmvvm.widget.CameraPreView
+import com.kt.ktmvvm.widget.CameraTabView
+import com.kt.ktmvvm.widget.RecordButton
+import java.util.*
 
-class CameraViewModel(application: Application) : BaseViewModel(application) {
+class CameraViewModel(application: Application) : BaseViewModel(application),
+    RecordButton.RecordStateListener, CameraTabView.OnTabSelectedListener,
+    CameraPreView.OnCameraPreViewListener {
 
     var permission: SingleLiveEvent<Boolean>? = SingleLiveEvent()
-    private var isCameraX: Boolean = true
+
     var starCameraSingle: SingleLiveEvent<Boolean>? = SingleLiveEvent()
     var cameraXController: CameraXController? = null
+    var recorderListener: ObservableField<RecordButton.RecordStateListener>? = ObservableField(this)
+    var tabList: ObservableField<MutableList<String>>? = ObservableField(mutableListOf("拍照", "录像"))
+    var recordButtonStatus: ObservableField<Boolean>? = ObservableField(false)
+    var cameraTabListener: ObservableField<CameraTabView.OnTabSelectedListener>? =
+        ObservableField(this)
+    var cameraPreViewListener: ObservableField<CameraPreView.OnCameraPreViewListener>? =
+        ObservableField(this)
 
     companion object {
         private const val TAG = "CameraXApp"
@@ -35,6 +50,11 @@ class CameraViewModel(application: Application) : BaseViewModel(application) {
                     add(WRITE_EXTERNAL_STORAGE)
                 }
             }.toTypedArray()
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        requestPermissions()
     }
 
     /**
@@ -59,40 +79,54 @@ class CameraViewModel(application: Application) : BaseViewModel(application) {
         }
     }
 
-    /**
-     * 打开cameraX
-     */
-    fun openCameraX() {
-        isCameraX = true
-        requestPermissions()
+
+    fun startCamera() {
+        starCameraSingle?.postValue(true)
     }
 
-
-    /**
-     * 拍照
-     */
-    fun takePicture() {
-        cameraXController?.takePhoto()
-    }
-
-    /**
-     * 录制视频
-     */
-    fun takeVideo() {
+    override fun onRecordStart() {
+        //录像开始
+        Log.e(TAG, "开始录制")
         cameraXController?.takeVideo()
     }
 
-    /**
-     * 打开camera2
-     */
-    fun openCamera() {
-        isCameraX = false
-        requestPermissions()
+    override fun onRecordStop() {
+        //录像结束
+        Log.e(TAG, "结束录制")
+        cameraXController?.takeVideo()
     }
 
-
-    fun startCamera() {
-        starCameraSingle?.postValue(isCameraX)
+    override fun takePhoto() {
+        cameraXController?.takePhoto()
     }
+
+    override fun onZoom(percent: Float) {
+
+    }
+
+    override fun isClick(): Boolean {
+        return true
+    }
+
+    override fun onTabSelected(tab: CameraTabView.Tab?) {
+        //切换对应模式
+        Log.e(TAG, "the position is" + tab?.position)
+        recordButtonStatus?.set(tab?.position == 1)
+
+    }
+
+    override fun onTabUnselected(tab: CameraTabView.Tab?) {
+
+    }
+
+    override fun onTabReselected(tab: CameraTabView.Tab?) {
+
+    }
+
+    override fun previewFocus(x: Float, y: Float) {
+
+        cameraXController?.focus(x, y, false)
+    }
+
 
 }

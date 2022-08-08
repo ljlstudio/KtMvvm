@@ -8,4 +8,15 @@
         <item>模糊效果</item>
     </string-array>
 
+    <!--  录制按钮样式  -->
+    <declare-styleable name="RecordButton">
+        <attr name="circleStrokeWidthMin" format="dimension|reference" />
+        <attr name="circleStrokeWidthMax" format="dimension|reference" />
+        <attr name="strokeRecordColor" format="color|reference" />
+        <attr name="circleColor" format="color|reference" />
+        <attr name="progressCircleColor" format="color|reference" />
+        <attr name="rectCorner" format="dimension|reference" />
+        <attr name="rectWidthMax" format="dimension|reference" />
+        <attr name="rectWidthMin" format="dimension|reference" />
+    </declare-styleable>
 </resources>

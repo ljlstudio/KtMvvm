@@ -1,8 +1,11 @@
 package com.kt.ktmvvm.jetpack.camerax
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.GestureDetector
+import android.view.MotionEvent
+import android.view.View
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.Observer
 import com.kt.ktmvvm.BR
 import com.kt.ktmvvm.R
 import com.kt.ktmvvm.basic.BaseActivity
@@ -20,8 +23,11 @@ class CameraActivity : BaseActivity<ActivityCameraLayoutBinding, CameraViewModel
         return R.layout.activity_camera_layout
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun initParam() {
+
     }
+
 
     override fun initViewObservable() {
         super.initViewObservable()
@@ -38,7 +44,7 @@ class CameraActivity : BaseActivity<ActivityCameraLayoutBinding, CameraViewModel
             if (it == true) {
                 if (viewModel?.cameraXController == null) {
                     viewModel?.cameraXController = CameraXController(this, binding?.viewFinder)
-                    viewModel?.cameraXController?.openCamera()
+                    viewModel?.cameraXController?.openCameraPreView()
                 }
             }
         }

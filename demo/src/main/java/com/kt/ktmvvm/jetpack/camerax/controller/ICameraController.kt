@@ -4,9 +4,20 @@ interface ICameraController {
     /**
      * 打开相机
      */
-    fun openCamera()
+    fun openCameraPreView()
 
+    /**
+     * 录像
+     */
     fun takePhoto()
 
+    /**
+     * 拍照
+     */
     fun takeVideo()
+
+    /**
+     * 聚焦
+     */
+    fun focus(x:Float,y:Float,auto:Boolean)
 }

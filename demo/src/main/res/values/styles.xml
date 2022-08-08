@@ -66,4 +66,11 @@
         <item name="cornerSizeTopLeft">100%</item>
     </style>
 
+
+    <style name="CameraTabTextStyle">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
 </resources>
