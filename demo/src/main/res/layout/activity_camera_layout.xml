@@ -18,8 +18,6 @@
             android:layout_height="match_parent" />
 
 
-
-
         <com.kt.ktmvvm.widget.CameraPreView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -27,6 +25,7 @@
             android:clickable="true"
             android:focusable="true"
             app:bindCameraPreViewListener="@{model.cameraPreViewListener}" />
+
         <com.kt.ktmvvm.widget.CameraTabView
 
             android:id="@+id/camera_tab"
@@ -44,6 +43,12 @@
             app:tabSelectedTextColor="#fd87aa"
             app:tabTextAppearance="@style/CameraTabTextStyle"
             app:tabTextColor="#333333" />
+
+        <com.kt.ktmvvm.widget.TopView
+            app:bindTopViewListener="@{model.topViewListener}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <!-- 录制按钮 -->
         <com.kt.ktmvvm.widget.RecordButton
             android:id="@+id/btn_record"

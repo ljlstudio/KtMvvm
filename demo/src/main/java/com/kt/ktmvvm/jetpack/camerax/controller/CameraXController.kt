@@ -7,22 +7,19 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
-import android.util.Rational
 import android.widget.Toast
 import androidx.camera.core.*
-import androidx.camera.core.FocusMeteringAction.FLAG_AE
 import androidx.camera.core.FocusMeteringAction.FLAG_AF
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.video.*
 import androidx.camera.video.VideoCapture
-
 import androidx.camera.video.VideoCapture.withOutput
 import androidx.camera.view.CameraController
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import java.lang.invoke.MethodType
+import com.google.common.util.concurrent.ListenableFuture
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -36,8 +33,13 @@ class CameraXController(fragmentActivity: FragmentActivity, private var preview:
     private var videoCapture: VideoCapture<Recorder>? = null
     private var recording: Recording? = null
     private var cameraProvider: ProcessCameraProvider? = null
-    private var cameraSelector: CameraSelector? = CameraSelector.DEFAULT_BACK_CAMERA
+
     private var cameraControl: CameraControl? = null
+    var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>? = null
+    var mPreView: Preview? = null
+
+    // 是否打开前置摄像头
+    private var mFacingFront = false
 
     companion object {
         val TAG: String = CameraController::class.java.simpleName
@@ -51,15 +53,15 @@ class CameraXController(fragmentActivity: FragmentActivity, private var preview:
      * 打开相机预览
      */
     override fun openCameraPreView() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(mLifecycleOwner!!)
+        cameraProviderFuture = ProcessCameraProvider.getInstance(mLifecycleOwner!!)
 
-        cameraProviderFuture.addListener({
-            // 绑定生命周期
-            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+        cameraProviderFuture?.addListener({
+
+            cameraProvider = cameraProviderFuture?.get()
 
 
             // Preview 预览流
-            val preview = Preview.Builder()
+            mPreView = Preview.Builder()
                 //设置分辨率
                 .setTargetAspectRatio(AspectRatio.RATIO_4_3)
                 .build()
@@ -94,18 +96,20 @@ class CameraXController(fragmentActivity: FragmentActivity, private var preview:
 //                .build()
 
 
-            //选择后置摄像头
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+            // 前后置摄像头选择器
+            val cameraSelector = CameraSelector.Builder()
+                .requireLensFacing(if (mFacingFront) CameraSelector.LENS_FACING_FRONT else CameraSelector.LENS_FACING_BACK)
+                .build()
 
             try {
                 //解绑所有摄像头使用
-                cameraProvider.unbindAll()
+                cameraProvider?.unbindAll()
 
                 // 绑定输出
-                camera = cameraProvider.bindToLifecycle(
+                camera = cameraProvider?.bindToLifecycle(
                     mLifecycleOwner!!,
                     cameraSelector,
-                    preview,
+                    mPreView,
                     imageCapture,
                     videoCapture
 
@@ -113,7 +117,7 @@ class CameraXController(fragmentActivity: FragmentActivity, private var preview:
 
                 cameraControl = camera?.cameraControl
 
-                focus(this.preview?.width?.div(2f)!!, this.preview?.height?.div(2f)!!,true)
+                focus(this.preview?.width?.div(2f)!!, this.preview?.height?.div(2f)!!, true)
             } catch (exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
             }
@@ -238,7 +242,8 @@ class CameraXController(fragmentActivity: FragmentActivity, private var preview:
     }
 
     /**
-     * 手动聚焦
+     * 聚焦
+     * @param auto 聚焦模式
      */
     @SuppressLint("RestrictedApi")
     override fun focus(x: Float, y: Float, auto: Boolean) {
@@ -280,6 +285,41 @@ class CameraXController(fragmentActivity: FragmentActivity, private var preview:
             }
 
         }, ContextCompat.getMainExecutor(mLifecycleOwner!!))
+
+
+    }
+
+    /**
+     * 切换镜头
+     */
+    override fun switchCamera() {
+
+
+        mFacingFront = !mFacingFront
+
+        // 解除绑定
+        cameraProvider?.unbindAll()
+
+
+        // 前后置摄像头选择器
+        val cameraSelector = CameraSelector.Builder()
+            .requireLensFacing(if (mFacingFront) CameraSelector.LENS_FACING_FRONT else CameraSelector.LENS_FACING_BACK)
+            .build()
+        imageCapture = ImageCapture.Builder()
+            .setTargetAspectRatio(AspectRatio.RATIO_4_3)
+            .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
+            .build()
+
+
+        // 绑定输出
+        camera = cameraProvider?.bindToLifecycle(
+            mLifecycleOwner!!,
+            cameraSelector,
+            imageCapture,
+            videoCapture,
+            mPreView
+
+        )
 
 
     }

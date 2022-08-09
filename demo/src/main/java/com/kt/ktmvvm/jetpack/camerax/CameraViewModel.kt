@@ -19,11 +19,14 @@ import com.kt.ktmvvm.jetpack.camerax.controller.CameraXController
 import com.kt.ktmvvm.widget.CameraPreView
 import com.kt.ktmvvm.widget.CameraTabView
 import com.kt.ktmvvm.widget.RecordButton
+import com.kt.ktmvvm.widget.TopView
 import java.util.*
 
 class CameraViewModel(application: Application) : BaseViewModel(application),
-    RecordButton.RecordStateListener, CameraTabView.OnTabSelectedListener,
-    CameraPreView.OnCameraPreViewListener {
+    RecordButton.RecordStateListener,
+    CameraTabView.OnTabSelectedListener,
+    CameraPreView.OnCameraPreViewListener,
+    TopView.OnTopViewListener {
 
     var permission: SingleLiveEvent<Boolean>? = SingleLiveEvent()
 
@@ -36,6 +39,8 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
         ObservableField(this)
     var cameraPreViewListener: ObservableField<CameraPreView.OnCameraPreViewListener>? =
         ObservableField(this)
+
+    var topViewListener: ObservableField<TopView.OnTopViewListener>? = ObservableField(this)
 
     companion object {
         private const val TAG = "CameraXApp"
@@ -126,6 +131,10 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
     override fun previewFocus(x: Float, y: Float) {
 
         cameraXController?.focus(x, y, false)
+    }
+
+    override fun backCamera() {
+        cameraXController?.switchCamera()
     }
 
 

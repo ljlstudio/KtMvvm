@@ -15,10 +15,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.google.android.material.imageview.ShapeableImageView
 import com.kt.ktmvvm.jetpack.viewpager.ScaleInTransformer
-import com.kt.ktmvvm.widget.CameraPreView
-import com.kt.ktmvvm.widget.CameraTabView
-import com.kt.ktmvvm.widget.RecordButton
-import com.kt.ktmvvm.widget.RingView
+import com.kt.ktmvvm.widget.*
 import java.util.*
 
 object BindingAdapter {
@@ -241,5 +238,11 @@ object BindingAdapter {
     @JvmStatic
     fun setCameraPreViewListener(cameraPreView: CameraPreView,listener: CameraPreView.OnCameraPreViewListener){
         cameraPreView.setOnCameraPreViewListener(listener)
+    }
+
+    @BindingAdapter("bindTopViewListener")
+    @JvmStatic
+    fun setOnTopViewListener(topView: TopView, listener: TopView.OnTopViewListener){
+        topView.setOnTopViewListener(listener)
     }
 }

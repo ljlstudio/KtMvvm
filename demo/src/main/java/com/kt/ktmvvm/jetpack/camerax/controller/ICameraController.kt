@@ -20,4 +20,10 @@ interface ICameraController {
      * 聚焦
      */
     fun focus(x:Float,y:Float,auto:Boolean)
+
+    /**
+     * 切换镜头
+     */
+
+    fun switchCamera()
 }
