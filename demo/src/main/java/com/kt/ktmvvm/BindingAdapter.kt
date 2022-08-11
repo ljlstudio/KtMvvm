@@ -251,4 +251,10 @@ object BindingAdapter {
     fun setOnRatioViewListener(topView: TopView, listener: RatioPop.OnRatioViewListener){
         topView.setOnRatioViewListener(listener)
     }
+
+    @BindingAdapter("bindOnPopCheckListener")
+    @JvmStatic
+    fun setOnPopCheckListener(topView: TopView, listener:PopWin.OnPopCheckListener){
+        topView.setOnPopCheckListener(listener)
+    }
 }

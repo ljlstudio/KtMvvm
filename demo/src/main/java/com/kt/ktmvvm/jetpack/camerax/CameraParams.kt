@@ -26,10 +26,12 @@ class CameraParams(context: Context?) {
 
     var mFacingFront: Boolean = false //是否是前置摄像头
     var mRatioType: Int = CameraRatioType.RATIO_3_4//分辨率尺寸
+    var mSplashOn: Boolean = false//闪光灯
 
     init {
         mFacingFront = false
         mRatioType = CameraRatioType.RATIO_3_4
+        mSplashOn = false
     }
 
 

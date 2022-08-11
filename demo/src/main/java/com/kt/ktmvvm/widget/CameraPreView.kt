@@ -14,6 +14,7 @@ import kotlinx.coroutines.*
 import kotlin.math.sqrt
 
 class CameraPreView : FrameLayout {
+    private var topHeight: Int = 0
     private var listener: OnCameraPreViewListener? = null
     private var gestureDetector: GestureDetectorCompat? = null
     private var focusView: FocusView? = null
@@ -148,11 +149,14 @@ class CameraPreView : FrameLayout {
         focusView?.layoutParams?.width = DisplayUtils.dip2px(context, 150f)
         focusView?.layoutParams?.height = DisplayUtils.dip2px(context, 150f)
 
+
+
+
         focusView?.x = (mTouchX - DisplayUtils.dip2px(context, 150f) / 2f)
-        focusView?.y = (mTouchY - DisplayUtils.dip2px(context, 150f) / 2f)
+        focusView?.y = (mTouchY - topHeight - DisplayUtils.dip2px(context, 150f) / 2f)
 
 
-        listener?.previewFocus(mTouchX, mTouchY)
+        listener?.previewFocus(mTouchX, mTouchY - topHeight)
 
         focusView?.focusAnimate()
         job?.let {
@@ -172,6 +176,10 @@ class CameraPreView : FrameLayout {
 
     fun setOnCameraPreViewListener(listener: OnCameraPreViewListener) {
         this.listener = listener
+    }
+
+    fun setHTop(top: Int) {
+        this.topHeight = top
     }
 
     interface OnCameraPreViewListener {

@@ -38,4 +38,14 @@ interface ICameraController {
      * 设置分辨率
      */
     fun setResolution()
+
+    /**
+     * 照明、补光
+     */
+    fun torchSwitch(on:Boolean)
+
+    /**
+     * 闪光灯
+     */
+    fun splash(on:Boolean)
 }

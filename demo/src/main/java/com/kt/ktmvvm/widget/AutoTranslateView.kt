@@ -20,7 +20,7 @@ import kotlin.math.roundToInt
 class AutoTranslateView : FrameLayout {
 
     private var isInit = true
-    private var lastType: Int = CameraRatioType.RATIO_3_4
+
 
     constructor(context: Context) : super(context) {
 
@@ -52,7 +52,7 @@ class AutoTranslateView : FrameLayout {
                 ValueAnimator.ofInt(this.height, height)
             } else if (this.height != 0 && this.height < height) {
                 ValueAnimator.ofInt(this.height, height)
-            }else{
+            } else {
                 ValueAnimator.ofInt(height, this.height)
             }
 
@@ -69,7 +69,12 @@ class AutoTranslateView : FrameLayout {
         }
 
 
-        animator.duration = 200
+        if (isInit) {
+            isInit = false
+            animator.duration = 0
+        } else {
+            animator.duration = 200
+        }
         //开始动画
         animator.start()
     }

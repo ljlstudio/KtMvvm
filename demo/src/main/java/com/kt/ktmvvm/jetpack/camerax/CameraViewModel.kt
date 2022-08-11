@@ -27,7 +27,8 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
     CameraPreView.OnCameraPreViewListener,
     TopView.OnTopViewListener,
     CameraCallBack,
-    RatioPop.OnRatioViewListener {
+    RatioPop.OnRatioViewListener,
+    PopWin.OnPopCheckListener {
 
     var permission: SingleLiveEvent<Boolean>? = SingleLiveEvent()
 
@@ -46,6 +47,8 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
     var heightValue: SingleLiveEvent<Int>? = SingleLiveEvent()
     var bindOnRatioViewListener: ObservableField<RatioPop.OnRatioViewListener>? =
         ObservableField(this)
+
+    var bindPopCheckListener: ObservableField<PopWin.OnPopCheckListener>? = ObservableField(this)
 
     companion object {
         private const val TAG = "CameraXApp"
@@ -154,6 +157,18 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
         //切换分辨率成功后,更改UI 效果
 
         heightValue?.postValue(ratio)
+    }
+
+    override fun lightCheck(on: Boolean) {
+        cameraXController?.torchSwitch(on)
+    }
+
+    override fun delay(on: Boolean) {
+
+    }
+
+    override fun splash(on: Boolean) {
+        cameraXController?.splash(on)
     }
 
 

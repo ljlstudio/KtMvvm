@@ -15,19 +15,19 @@
 
         <androidx.camera.view.PreviewView
 
-            android:layout_centerInParent="true"
             android:id="@+id/viewFinder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/auto_bottom"
-            android:layout_below="@+id/auto_top" />
+            android:layout_below="@+id/auto_top"
+            android:layout_centerInParent="true" />
+
         <com.kt.ktmvvm.widget.AutoTranslateView
             android:id="@+id/auto_top"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_alignParentTop="true"
             android:background="@color/white" />
-
 
 
         <com.kt.ktmvvm.widget.AutoTranslateView
@@ -39,10 +39,13 @@
 
 
         <com.kt.ktmvvm.widget.CameraPreView
+
+            android:id="@+id/camera_preview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/auto_bottom"
             android:layout_below="@+id/auto_top"
+
             android:layout_centerInParent="true"
             android:clickable="true"
             android:focusable="true"
@@ -62,13 +65,14 @@
             app:tabMaxWidth="200dp"
             app:tabMinWidth="20dp"
             app:tabMode="scrollable"
-            app:tabSelectedTextColor="#fd87aa"
+            app:tabSelectedTextColor="@color/color_fd87aa"
             app:tabTextAppearance="@style/CameraTabTextStyle"
-            app:tabTextColor="#333333" />
+            app:tabTextColor="#c5c5c5" />
 
         <com.kt.ktmvvm.widget.TopView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:bindOnPopCheckListener="@{model.bindPopCheckListener}"
             app:bindOnRatioViewListener="@{model.bindOnRatioViewListener}"
             app:bindTopViewListener="@{model.topViewListener}" />
 

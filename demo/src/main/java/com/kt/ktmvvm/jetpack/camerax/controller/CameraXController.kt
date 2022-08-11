@@ -3,9 +3,7 @@ package com.kt.ktmvvm.jetpack.camerax.controller
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentValues
-import android.content.Context
 import android.content.pm.PackageManager
-import android.hardware.camera2.CameraManager
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
@@ -21,7 +19,6 @@ import androidx.camera.view.CameraController
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.FragmentActivity
 import com.blankj.utilcode.util.ScreenUtils
 import com.google.common.util.concurrent.ListenableFuture
@@ -86,7 +83,7 @@ class CameraXController(
                 val size = if (cameraParams?.mRatioType == CameraRatioType.RATIO_1_1) {
                     Size(ScreenUtils.getScreenWidth() * 2, ScreenUtils.getScreenWidth() * 2)
                 } else {
-                    Size(ScreenUtils.getScreenWidth()*2, ScreenUtils.getScreenHeight()*2)
+                    Size(ScreenUtils.getScreenWidth() * 2, ScreenUtils.getScreenHeight() * 2)
                 }
 
 
@@ -98,6 +95,7 @@ class CameraXController(
                     .also {
                         it.setSurfaceProvider(preview?.surfaceProvider)
                     }
+
 
                 //图像捕捉
                 imageCapture = ImageCapture.Builder()
@@ -124,7 +122,14 @@ class CameraXController(
 
             }
 
-
+            //闪光灯模式
+            val flashMode =
+                if (cameraParams?.mSplashOn == true && cameraParams?.mFacingFront == false) {
+                    ImageCapture.FLASH_MODE_ON
+                } else {
+                    ImageCapture.FLASH_MODE_OFF
+                }
+            imageCapture?.flashMode = flashMode
             //视频帧捕捉
             val recorder = Recorder.Builder()
                 .setQualitySelector(
@@ -390,5 +395,29 @@ class CameraXController(
         return zoomState.value?.zoomRatio
     }
 
+    /**
+     * 切换手电筒
+     */
+    override fun torchSwitch(on: Boolean) {
+
+        cameraControl?.enableTorch(on)
+
+    }
+
+    /**
+     * 闪光灯
+     */
+    override fun splash(on: Boolean) {
+        cameraParams?.mSplashOn = on
+        //闪光灯模式
+        val flashMode = if (cameraParams?.mSplashOn == true&& cameraParams?.mFacingFront == false) {
+            ImageCapture.FLASH_MODE_ON
+        } else {
+            ImageCapture.FLASH_MODE_OFF
+        }
+
+        imageCapture?.flashMode = flashMode
+
+    }
 
 }
