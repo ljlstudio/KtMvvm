@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -8,19 +9,40 @@
             type="com.kt.ktmvvm.jetpack.camerax.CameraViewModel" />
     </data>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.camera.view.PreviewView
+
+            android:layout_centerInParent="true"
             android:id="@+id/viewFinder"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_above="@+id/auto_bottom"
+            android:layout_below="@+id/auto_top" />
+        <com.kt.ktmvvm.widget.AutoTranslateView
+            android:id="@+id/auto_top"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/white" />
+
+
+
+        <com.kt.ktmvvm.widget.AutoTranslateView
+            android:id="@+id/auto_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white" />
 
 
         <com.kt.ktmvvm.widget.CameraPreView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/auto_bottom"
+            android:layout_below="@+id/auto_top"
             android:layout_centerInParent="true"
             android:clickable="true"
             android:focusable="true"
@@ -31,7 +53,7 @@
             android:id="@+id/camera_tab"
             android:layout_width="300dp"
             android:layout_height="20dp"
-            android:layout_above="@+id/btn_record"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
             app:bindCameraTabList="@{model.tabList}"
@@ -45,18 +67,20 @@
             app:tabTextColor="#333333" />
 
         <com.kt.ktmvvm.widget.TopView
-            app:bindTopViewListener="@{model.topViewListener}"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:bindOnRatioViewListener="@{model.bindOnRatioViewListener}"
+            app:bindTopViewListener="@{model.topViewListener}" />
 
         <!-- 录制按钮 -->
         <com.kt.ktmvvm.widget.RecordButton
             android:id="@+id/btn_record"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:layout_alignParentBottom="true"
+
+            android:layout_above="@+id/camera_tab"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="40dp"
             app:bindRecordButtonStatus="@{model.recordButtonStatus}"
             app:bindRecordListener="@{model.recorderListener}"
             app:circleColor="#f5f5f5"

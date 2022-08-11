@@ -3,10 +3,13 @@ package com.kt.ktmvvm.jetpack.camerax.controller
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentValues
+import android.content.Context
 import android.content.pm.PackageManager
+import android.hardware.camera2.CameraManager
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
+import android.util.Size
 import android.widget.Toast
 import androidx.camera.core.*
 import androidx.camera.core.FocusMeteringAction.FLAG_AF
@@ -18,13 +21,23 @@ import androidx.camera.view.CameraController
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.FragmentActivity
+import com.blankj.utilcode.util.ScreenUtils
 import com.google.common.util.concurrent.ListenableFuture
+import com.kt.ktmvvm.inner.CameraRatioType
+import com.kt.ktmvvm.jetpack.camerax.CameraCallBack
+import com.kt.ktmvvm.jetpack.camerax.CameraParams
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class CameraXController(fragmentActivity: FragmentActivity, private var preview: PreviewView?) :
+
+class CameraXController(
+    fragmentActivity: FragmentActivity,
+    private var preview: PreviewView?,
+    private var callBack: CameraCallBack?
+) :
     ICameraController {
 
 
@@ -36,15 +49,21 @@ class CameraXController(fragmentActivity: FragmentActivity, private var preview:
 
     private var cameraControl: CameraControl? = null
     var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>? = null
+    var zoomCoefficient: Float = 0.1f//缩放系数
     var mPreView: Preview? = null
+    private var isInt: Boolean = false
 
-    // 是否打开前置摄像头
-    private var mFacingFront = false
+    var cameraParams: CameraParams? = null
+
+    /**
+     * 初始化相机配置
+     */
+    init {
+        cameraParams = CameraParams.get(fragmentActivity)
+    }
 
     companion object {
         val TAG: String = CameraController::class.java.simpleName
-
-
     }
 
     private var mLifecycleOwner: FragmentActivity? = fragmentActivity
@@ -52,6 +71,7 @@ class CameraXController(fragmentActivity: FragmentActivity, private var preview:
     /**
      * 打开相机预览
      */
+    @SuppressLint("RestrictedApi")
     override fun openCameraPreView() {
         cameraProviderFuture = ProcessCameraProvider.getInstance(mLifecycleOwner!!)
 
@@ -60,24 +80,50 @@ class CameraXController(fragmentActivity: FragmentActivity, private var preview:
             cameraProvider = cameraProviderFuture?.get()
 
 
-            // Preview 预览流
-            mPreView = Preview.Builder()
-                //设置分辨率
-                .setTargetAspectRatio(AspectRatio.RATIO_4_3)
-                .build()
-                .also {
-                    it.setSurfaceProvider(preview?.surfaceProvider)
+
+
+            if (cameraParams?.mRatioType == CameraRatioType.RATIO_1_1 || cameraParams?.mRatioType == CameraRatioType.RATIO_FULL) {
+                val size = if (cameraParams?.mRatioType == CameraRatioType.RATIO_1_1) {
+                    Size(ScreenUtils.getScreenWidth() * 2, ScreenUtils.getScreenWidth() * 2)
+                } else {
+                    Size(ScreenUtils.getScreenWidth()*2, ScreenUtils.getScreenHeight()*2)
                 }
 
 
-            //图像捕捉
-            imageCapture = ImageCapture.Builder()
-                .setTargetAspectRatio(AspectRatio.RATIO_4_3)
-                .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
-                .build()
+                // Preview 预览流
+                mPreView = Preview.Builder()
+                    //设置分辨率
+                    .setTargetResolution(size)
+                    .build()
+                    .also {
+                        it.setSurfaceProvider(preview?.surfaceProvider)
+                    }
 
+                //图像捕捉
+                imageCapture = ImageCapture.Builder()
+                    .setTargetResolution(
+                        size
+                    )
+                    .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
+                    .build()
+            } else {
+                // Preview 预览流
+                mPreView = Preview.Builder()
+                    //设置分辨率
+                    .setTargetAspectRatio(cameraParams?.mRatioType!!)
+                    .build()
+                    .also {
+                        it.setSurfaceProvider(preview?.surfaceProvider)
+                    }
 
-//            imageCapture?.setCropAspectRatio(Rational(this.preview?.width!!, this.preview?.height!!))
+                //图像捕捉
+                imageCapture = ImageCapture.Builder()
+                    .setTargetAspectRatio(cameraParams?.mRatioType!!)
+                    .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
+                    .build()
+
+            }
+
 
             //视频帧捕捉
             val recorder = Recorder.Builder()
@@ -98,13 +144,13 @@ class CameraXController(fragmentActivity: FragmentActivity, private var preview:
 
             // 前后置摄像头选择器
             val cameraSelector = CameraSelector.Builder()
-                .requireLensFacing(if (mFacingFront) CameraSelector.LENS_FACING_FRONT else CameraSelector.LENS_FACING_BACK)
+                .requireLensFacing(if (cameraParams?.mFacingFront == true) CameraSelector.LENS_FACING_FRONT else CameraSelector.LENS_FACING_BACK)
                 .build()
 
-            try {
-                //解绑所有摄像头使用
-                cameraProvider?.unbindAll()
 
+            try {
+
+                cameraProvider?.unbindAll()
                 // 绑定输出
                 camera = cameraProvider?.bindToLifecycle(
                     mLifecycleOwner!!,
@@ -115,6 +161,10 @@ class CameraXController(fragmentActivity: FragmentActivity, private var preview:
 
                 )
 
+                if (!isInt) {
+                    isInt = true
+                    callBack?.ratioCallBack(cameraParams?.mRatioType)
+                }
                 cameraControl = camera?.cameraControl
 
                 focus(this.preview?.width?.div(2f)!!, this.preview?.height?.div(2f)!!, true)
@@ -124,6 +174,25 @@ class CameraXController(fragmentActivity: FragmentActivity, private var preview:
 
         }, ContextCompat.getMainExecutor(mLifecycleOwner!!))
     }
+
+    /**
+     * 设置分辨率比例
+     */
+    override fun setResolution() {
+
+        cameraParams?.mRatioType = when (cameraParams?.mRatioType) {
+            CameraRatioType.RATIO_3_4 -> AspectRatio.RATIO_4_3
+            CameraRatioType.RATIO_9_16 -> AspectRatio.RATIO_16_9
+            CameraRatioType.RATIO_1_1 -> CameraRatioType.RATIO_1_1
+            CameraRatioType.RATIO_FULL -> CameraRatioType.RATIO_FULL
+            else -> AspectRatio.RATIO_4_3
+        }
+        openCameraPreView()
+
+        callBack?.ratioCallBack(cameraParams?.mRatioType)
+
+    }
+
 
     /**
      * 拍照
@@ -293,35 +362,32 @@ class CameraXController(fragmentActivity: FragmentActivity, private var preview:
      * 切换镜头
      */
     override fun switchCamera() {
+        cameraParams?.mFacingFront = !cameraParams?.mFacingFront!!
+        openCameraPreView()
+    }
 
+    /**
+     * 缩放
+     */
+    override fun zoom(out: Boolean): Float? {
+        val zoomState = camera?.cameraInfo?.zoomState
+        val zoomRatio: Float? = zoomState?.value?.zoomRatio        //当前值
+        val maxZoomRatio: Float? = zoomState?.value?.maxZoomRatio//缩放最大值
+        val minZoomRatio: Float? = zoomState?.value?.minZoomRatio //缩放最小值
 
-        mFacingFront = !mFacingFront
+        if (out) {
+            //放大
+            if (zoomRatio!! < maxZoomRatio!!) {
+                cameraControl?.setZoomRatio((zoomRatio + zoomCoefficient))
+            }
+        } else {
+            //缩小
+            if (zoomRatio!! > minZoomRatio!!) {
+                cameraControl?.setZoomRatio((zoomRatio - zoomCoefficient))
+            }
+        }
 
-        // 解除绑定
-        cameraProvider?.unbindAll()
-
-
-        // 前后置摄像头选择器
-        val cameraSelector = CameraSelector.Builder()
-            .requireLensFacing(if (mFacingFront) CameraSelector.LENS_FACING_FRONT else CameraSelector.LENS_FACING_BACK)
-            .build()
-        imageCapture = ImageCapture.Builder()
-            .setTargetAspectRatio(AspectRatio.RATIO_4_3)
-            .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
-            .build()
-
-
-        // 绑定输出
-        camera = cameraProvider?.bindToLifecycle(
-            mLifecycleOwner!!,
-            cameraSelector,
-            imageCapture,
-            videoCapture,
-            mPreView
-
-        )
-
-
+        return zoomState.value?.zoomRatio
     }
 
 

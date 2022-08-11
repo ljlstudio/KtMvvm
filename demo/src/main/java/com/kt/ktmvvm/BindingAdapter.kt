@@ -245,4 +245,10 @@ object BindingAdapter {
     fun setOnTopViewListener(topView: TopView, listener: TopView.OnTopViewListener){
         topView.setOnTopViewListener(listener)
     }
+
+    @BindingAdapter("bindOnRatioViewListener")
+    @JvmStatic
+    fun setOnRatioViewListener(topView: TopView, listener: RatioPop.OnRatioViewListener){
+        topView.setOnRatioViewListener(listener)
+    }
 }

@@ -7,10 +7,15 @@ import android.widget.RelativeLayout
 import androidx.databinding.DataBindingUtil
 import com.kt.ktmvvm.R
 import com.kt.ktmvvm.databinding.TopFactorLayoutBinding
+import com.kt.ktmvvm.inner.CameraRatioType
 
 class TopView : RelativeLayout {
 
+
+    private var ratioListener: RatioPop.OnRatioViewListener? = null
     private var listener: OnTopViewListener? = null
+    private var popWin: PopWin? = null
+    private var ratioPop: RatioPop? = null
 
     constructor(context: Context) : super(context) {
 
@@ -46,8 +51,29 @@ class TopView : RelativeLayout {
             listener?.backCamera()
         }
 
+        binding.flSetting.setOnClickListener {
+
+            if (popWin == null) {
+                popWin = PopWin(context)
+            }
+            ratioPop?.hidePop()
+            popWin?.showPop(binding?.top)
+        }
+
+        binding.flBl.setOnClickListener {
+            if (ratioPop == null) {
+                ratioPop = RatioPop(context)
+            }
+            ratioPop?.setOnRatioViewListener(ratioListener)
+            popWin?.hidePop()
+            ratioPop?.showPop(binding.top)
+        }
+
     }
 
+    fun setOnRatioViewListener(listener: RatioPop.OnRatioViewListener) {
+        this.ratioListener = listener
+    }
 
     fun setOnTopViewListener(listener: OnTopViewListener) {
         this.listener = listener
@@ -55,5 +81,6 @@ class TopView : RelativeLayout {
 
     interface OnTopViewListener {
         fun backCamera()
+
     }
 }

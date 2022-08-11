@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="193dp"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_black_shape"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+
+            <RelativeLayout
+
+                android:id="@+id/light_layout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true">
+
+                    <TextView
+
+                        android:id="@+id/night_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="夜间补光"
+                        android:textColor="#ffffffff"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/night_light"
+                        android:layout_marginTop="4.5dp"
+                        android:text="夜间拍照更加清晰"
+                        android:textColor="#ff999999"
+                        android:textSize="9sp" />
+
+                </RelativeLayout>
+
+                <Switch
+                    android:id="@+id/s_v"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:thumb="@drawable/switch_thumb"
+                    android:track="@drawable/switch_selector"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+            </RelativeLayout>
+
+
+            <View
+
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#82ffffff" />
+
+
+            <View
+
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#82ffffff" />
+
+            <RelativeLayout
+                android:id="@+id/delay_layout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true">
+
+                    <TextView
+                        android:id="@+id/delay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="延时拍摄"
+                        android:textColor="#ffffffff"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/delay"
+                        android:layout_marginTop="4.5dp"
+                        android:text="延时3秒拍摄"
+                        android:textColor="#ff999999"
+                        android:textSize="9sp" />
+                </RelativeLayout>
+
+                <Switch
+
+                    android:id="@+id/d_t"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:maxHeight="24dp"
+                    android:switchMinWidth="40dp"
+                    android:thumb="@drawable/switch_thumb"
+                    android:track="@drawable/switch_selector" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+
+                android:id="@+id/splash_layout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <View
+
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#82ffffff" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true">
+
+                    <TextView
+                        android:id="@+id/splash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="闪光灯"
+                        android:textColor="#ffffffff"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/splash"
+                        android:layout_marginTop="4.5dp"
+                        android:text="开启相机闪光"
+                        android:textColor="#ff999999"
+                        android:textSize="9sp" />
+                </RelativeLayout>
+
+                <Switch
+
+                    android:id="@+id/h_t"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:maxHeight="24dp"
+                    android:switchMinWidth="40dp"
+                    android:thumb="@drawable/switch_thumb"
+                    android:track="@drawable/switch_selector" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

@@ -58,7 +58,8 @@
             android:screenOrientation="fullSensor" />
 
         <activity android:name=".jetpack.camerax.CameraActivity"
-            android:screenOrientation="fullSensor"
+            android:theme="@style/NoActionBarTheme"
+            android:screenOrientation="portrait"
             />
     </application>
 

@@ -12,21 +12,22 @@ import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableField
+import com.blankj.utilcode.util.ScreenUtils
 
 import com.kt.ktmvvm.basic.BaseViewModel
 import com.kt.ktmvvm.basic.SingleLiveEvent
+import com.kt.ktmvvm.inner.CameraRatioType
 import com.kt.ktmvvm.jetpack.camerax.controller.CameraXController
-import com.kt.ktmvvm.widget.CameraPreView
-import com.kt.ktmvvm.widget.CameraTabView
-import com.kt.ktmvvm.widget.RecordButton
-import com.kt.ktmvvm.widget.TopView
+import com.kt.ktmvvm.widget.*
 import java.util.*
 
 class CameraViewModel(application: Application) : BaseViewModel(application),
     RecordButton.RecordStateListener,
     CameraTabView.OnTabSelectedListener,
     CameraPreView.OnCameraPreViewListener,
-    TopView.OnTopViewListener {
+    TopView.OnTopViewListener,
+    CameraCallBack,
+    RatioPop.OnRatioViewListener {
 
     var permission: SingleLiveEvent<Boolean>? = SingleLiveEvent()
 
@@ -41,6 +42,10 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
         ObservableField(this)
 
     var topViewListener: ObservableField<TopView.OnTopViewListener>? = ObservableField(this)
+
+    var heightValue: SingleLiveEvent<Int>? = SingleLiveEvent()
+    var bindOnRatioViewListener: ObservableField<RatioPop.OnRatioViewListener>? =
+        ObservableField(this)
 
     companion object {
         private const val TAG = "CameraXApp"
@@ -133,8 +138,22 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
         cameraXController?.focus(x, y, false)
     }
 
+    override fun zoom(out: Boolean) {
+        cameraXController?.zoom(out)
+    }
+
     override fun backCamera() {
         cameraXController?.switchCamera()
+    }
+
+    override fun pickRatio() {
+        cameraXController?.setResolution()
+    }
+
+    override fun ratioCallBack(ratio: Int?) {
+        //切换分辨率成功后,更改UI 效果
+
+        heightValue?.postValue(ratio)
     }
 
 

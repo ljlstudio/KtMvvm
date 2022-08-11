@@ -4,10 +4,18 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/KtMvvm/app/src/main/res/layout/activity_main.xml" value="0.1875" />
+        <entry key="..\:/KtMvvm/demo/src/main/res/drawable/bg_black_shape.xml" value="0.207" />
         <entry key="..\:/KtMvvm/demo/src/main/res/drawable/close_camera_selector.xml" value="0.207" />
+        <entry key="..\:/KtMvvm/demo/src/main/res/drawable/gray.xml" value="0.207" />
         <entry key="..\:/KtMvvm/demo/src/main/res/drawable/progress.xml" value="0.207" />
+        <entry key="..\:/KtMvvm/demo/src/main/res/drawable/selector_9_16.xml" value="0.207" />
+        <entry key="..\:/KtMvvm/demo/src/main/res/drawable/shape_9_16.xml" value="0.207" />
+        <entry key="..\:/KtMvvm/demo/src/main/res/drawable/shape_9_16_fd87aa.xml" value="0.207" />
         <entry key="..\:/KtMvvm/demo/src/main/res/drawable/switch_camera_selector.xml" value="0.207" />
+        <entry key="..\:/KtMvvm/demo/src/main/res/drawable/switch_selector.xml" value="0.207" />
+        <entry key="..\:/KtMvvm/demo/src/main/res/drawable/switch_thumb.xml" value="0.207" />
         <entry key="..\:/KtMvvm/demo/src/main/res/drawable/white_c_15_shape.xml" value="0.207" />
+        <entry key="..\:/KtMvvm/demo/src/main/res/drawable/yellow_switch.xml" value="0.207" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/activity_camera_layout.xml" value="0.30055579307396324" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/activity_coordinator_layout.xml" value="0.22" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/activity_download_layout.xml" value="0.34074074074074073" />
@@ -17,11 +25,14 @@
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/activity_shape_layout.xml" value="0.2" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/bottom_sheet_layout.xml" value="0.36614583333333334" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/camera_preview.xml" value="0.30055579307396324" />
+        <entry key="..\:/KtMvvm/demo/src/main/res/layout/popu_layout.xml" value="0.30055579307396324" />
+        <entry key="..\:/KtMvvm/demo/src/main/res/layout/ratio_popu_layout.xml" value="0.33" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/rcv_item_layout.xml" value="0.36614583333333334" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/room_activity.xml" value="0.25" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/take_photo_view.xml" value="0.30055579307396324" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/top_factor_layout.xml" value="0.33" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/trade_count_down_view.xml" value="0.30055579307396324" />
+        <entry key="..\:/KtMvvm/demo/src/main/res/layout/tranlate_view_layout.xml" value="0.30055579307396324" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/viewpager2_layout.xml" value="0.36614583333333334" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/viewpager_item_layout.xml" value="0.36614583333333334" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/viewpager_vertical_item_layout.xml" value="0.36614583333333334" />
