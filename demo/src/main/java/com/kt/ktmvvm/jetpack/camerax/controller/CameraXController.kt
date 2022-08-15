@@ -38,19 +38,18 @@ class CameraXController(
     ICameraController {
 
 
-    var camera: Camera? = null
+    private var camera: Camera? = null
     private var imageCapture: ImageCapture? = null
     private var videoCapture: VideoCapture<Recorder>? = null
     private var recording: Recording? = null
     private var cameraProvider: ProcessCameraProvider? = null
-
     private var cameraControl: CameraControl? = null
     var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>? = null
     var zoomCoefficient: Float = 0.1f//缩放系数
     var mPreView: Preview? = null
     private var isInt: Boolean = false
-
     var cameraParams: CameraParams? = null
+
 
     /**
      * 初始化相机配置
@@ -227,13 +226,16 @@ class CameraXController(
             ContextCompat.getMainExecutor(mLifecycleOwner!!),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
+                    callBack?.takePictureStatus(false, exc.message.toString())
                     Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val msg = "Photo capture succeeded: ${output.savedUri}"
-                    Toast.makeText(mLifecycleOwner, msg, Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(mLifecycleOwner, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
+
+                    callBack?.takePictureStatus(true, output.savedUri.toString())
                 }
             }
         )
@@ -410,11 +412,12 @@ class CameraXController(
     override fun splash(on: Boolean) {
         cameraParams?.mSplashOn = on
         //闪光灯模式
-        val flashMode = if (cameraParams?.mSplashOn == true&& cameraParams?.mFacingFront == false) {
-            ImageCapture.FLASH_MODE_ON
-        } else {
-            ImageCapture.FLASH_MODE_OFF
-        }
+        val flashMode =
+            if (cameraParams?.mSplashOn == true && cameraParams?.mFacingFront == false) {
+                ImageCapture.FLASH_MODE_ON
+            } else {
+                ImageCapture.FLASH_MODE_OFF
+            }
 
         imageCapture?.flashMode = flashMode
 

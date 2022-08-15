@@ -6,20 +6,21 @@ import android.Manifest.permission.RECORD_AUDIO
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.Application
 import android.content.pm.PackageManager
-import android.graphics.Insets.add
+import android.database.Cursor
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableField
-import com.blankj.utilcode.util.ScreenUtils
-
+import androidx.loader.app.LoaderManager
+import androidx.loader.content.Loader
+import com.blankj.utilcode.util.ToastUtils
 import com.kt.ktmvvm.basic.BaseViewModel
 import com.kt.ktmvvm.basic.SingleLiveEvent
-import com.kt.ktmvvm.inner.CameraRatioType
+import com.kt.ktmvvm.entity.AlbumData
 import com.kt.ktmvvm.jetpack.camerax.controller.CameraXController
+import com.kt.ktmvvm.loader.AlbumDataLoader
 import com.kt.ktmvvm.widget.*
-import java.util.*
 
 class CameraViewModel(application: Application) : BaseViewModel(application),
     RecordButton.RecordStateListener,
@@ -28,7 +29,7 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
     TopView.OnTopViewListener,
     CameraCallBack,
     RatioPop.OnRatioViewListener,
-    PopWin.OnPopCheckListener {
+    PopWin.OnPopCheckListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     var permission: SingleLiveEvent<Boolean>? = SingleLiveEvent()
 
@@ -49,8 +50,17 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
         ObservableField(this)
 
     var bindPopCheckListener: ObservableField<PopWin.OnPopCheckListener>? = ObservableField(this)
+    var loaderManager: LoaderManager? = null
+
+    var picUrl: ObservableField<String>? = ObservableField("")
 
     companion object {
+
+        const val COLUMN_URI = "uri"
+        const val COLUMN_COUNT = "count"
+
+
+        private const val ALBUM_LOADER_ID = 1
         private const val TAG = "CameraXApp"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         const val REQUEST_CODE_PERMISSIONS = 10
@@ -68,6 +78,13 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
     override fun onCreate() {
         super.onCreate()
         requestPermissions()
+
+    }
+
+
+    fun loadFile(owner: CameraActivity) {
+        loaderManager = LoaderManager.getInstance(owner)
+        loaderManager?.initLoader(ALBUM_LOADER_ID, null, this)
     }
 
     /**
@@ -94,6 +111,7 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
 
 
     fun startCamera() {
+
         starCameraSingle?.postValue(true)
     }
 
@@ -159,6 +177,18 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
         heightValue?.postValue(ratio)
     }
 
+    /**
+     * 拍照成功回调
+     */
+    override fun takePictureStatus(success: Boolean, msg: String) {
+        Log.d(TAG, "the take picture status is$success and the url is or error$msg")
+        if (success) {
+            loaderManager?.restartLoader(ALBUM_LOADER_ID, null, this)
+        } else {
+            ToastUtils.showLong(msg)
+        }
+    }
+
     override fun lightCheck(on: Boolean) {
         cameraXController?.torchSwitch(on)
     }
@@ -171,5 +201,36 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
         cameraXController?.splash(on)
     }
 
+    override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
+        return AlbumDataLoader.getImageLoaderWithoutBucketSort(getApplication())
+    }
+
+
+    override fun onLoadFinished(loader: Loader<Cursor>, cursor: Cursor?) {
+        if (cursor != null && !cursor.isClosed) {
+            cursor.moveToFirst()
+            val albumData: AlbumData = AlbumData.valueOf(cursor)
+            Log.d(TAG, "the url is" + albumData.getCoverUri())
+            picUrl?.set(albumData.getCoverUri().toString())
+            cursor.close()
+            destroyImageLoader()
+        }
+    }
+
+
+    override fun onLoaderReset(loader: Loader<Cursor>) {
+
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        destroyImageLoader()
+    }
+
+    private fun destroyImageLoader() {
+        loaderManager?.destroyLoader(ALBUM_LOADER_ID)
+//        loaderManager = null
+    }
 
 }

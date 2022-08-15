@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.core.app.ActivityCompat
+import androidx.loader.app.LoaderManager
 import com.blankj.utilcode.util.ScreenUtils
 import com.kt.ktmvvm.BR
 import com.kt.ktmvvm.R
@@ -49,6 +50,8 @@ class CameraActivity : BaseActivity<ActivityCameraLayoutBinding, CameraViewModel
                         CameraXController(this, binding?.viewFinder, viewModel)
                     viewModel?.cameraXController?.openCameraPreView()
                 }
+
+                viewModel?.loadFile(this)
             }
         }
 

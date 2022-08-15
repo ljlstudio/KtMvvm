@@ -1,5 +1,6 @@
 package com.kt.ktmvvm
 
+import android.net.Uri
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ProgressBar
@@ -179,6 +180,21 @@ object BindingAdapter {
         ).into(shapeableImageView)
     }
 
+    @BindingAdapter("bindImgUri")
+    @JvmStatic
+    fun setImgUri(shapeableImageView: ShapeableImageView, url: Uri?) {
+
+//        if (url!=null){
+//
+//        }
+//        url?.let {
+//            Glide.with(MyApp.get()).asBitmap().load(
+//                url
+//            ).into(shapeableImageView)
+//        }
+    }
+
+
     @BindingAdapter("bindProgressBar")
     @JvmStatic
     fun setProgress(progressBar: ProgressBar, progress: Int) {
@@ -223,38 +239,44 @@ object BindingAdapter {
 
     @BindingAdapter("bindCameraTabListener")
     @JvmStatic
-    fun setCameraTabListener(cameraTabView: CameraTabView,onTabSelectedListener: CameraTabView.OnTabSelectedListener){
+    fun setCameraTabListener(
+        cameraTabView: CameraTabView,
+        onTabSelectedListener: CameraTabView.OnTabSelectedListener
+    ) {
         cameraTabView.addOnTabSelectedListener(onTabSelectedListener)
     }
 
     @BindingAdapter("bindRecordButtonStatus")
     @JvmStatic
-    fun setRecordButtonStatus(recordButton: RecordButton,boolean: Boolean){
+    fun setRecordButtonStatus(recordButton: RecordButton, boolean: Boolean) {
         recordButton.setRecordEnable(boolean)
     }
 
 
     @BindingAdapter("bindCameraPreViewListener")
     @JvmStatic
-    fun setCameraPreViewListener(cameraPreView: CameraPreView,listener: CameraPreView.OnCameraPreViewListener){
+    fun setCameraPreViewListener(
+        cameraPreView: CameraPreView,
+        listener: CameraPreView.OnCameraPreViewListener
+    ) {
         cameraPreView.setOnCameraPreViewListener(listener)
     }
 
     @BindingAdapter("bindTopViewListener")
     @JvmStatic
-    fun setOnTopViewListener(topView: TopView, listener: TopView.OnTopViewListener){
+    fun setOnTopViewListener(topView: TopView, listener: TopView.OnTopViewListener) {
         topView.setOnTopViewListener(listener)
     }
 
     @BindingAdapter("bindOnRatioViewListener")
     @JvmStatic
-    fun setOnRatioViewListener(topView: TopView, listener: RatioPop.OnRatioViewListener){
+    fun setOnRatioViewListener(topView: TopView, listener: RatioPop.OnRatioViewListener) {
         topView.setOnRatioViewListener(listener)
     }
 
     @BindingAdapter("bindOnPopCheckListener")
     @JvmStatic
-    fun setOnPopCheckListener(topView: TopView, listener:PopWin.OnPopCheckListener){
+    fun setOnPopCheckListener(topView: TopView, listener: PopWin.OnPopCheckListener) {
         topView.setOnPopCheckListener(listener)
     }
 }

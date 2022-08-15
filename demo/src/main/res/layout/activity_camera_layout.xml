@@ -97,5 +97,26 @@
             app:strokeColor="@color/white" />
 
 
+        <RelativeLayout
+
+            android:layout_toLeftOf="@+id/btn_record"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/btn_record"
+            android:layout_alignTop="@+id/btn_record">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_centerVertical="true"
+                app:bindImgUrl="@{model.picUrl}"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:scaleType="fitXY"
+                app:shapeAppearanceOverlay="@style/roundedCornerImageStyle5"
+                android:layout_centerHorizontal="true"
+
+                />
+
+        </RelativeLayout>
+
     </RelativeLayout>
 </layout>
