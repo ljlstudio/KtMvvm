@@ -189,16 +189,24 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
         }
     }
 
-    override fun lightCheck(on: Boolean) {
-        cameraXController?.torchSwitch(on)
+    override fun lightCheck() {
+        cameraXController?.torchSwitch()
     }
 
-    override fun delay(on: Boolean) {
+    override fun delay() {
 
     }
 
-    override fun splash(on: Boolean) {
-        cameraXController?.splash(on)
+    override fun splash() {
+        cameraXController?.splash()
+    }
+
+    override fun grid() {
+
+    }
+
+    override fun hdr() {
+
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {

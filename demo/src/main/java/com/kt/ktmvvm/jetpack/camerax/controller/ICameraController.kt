@@ -42,10 +42,10 @@ interface ICameraController {
     /**
      * 照明、补光
      */
-    fun torchSwitch(on:Boolean)
+    fun torchSwitch()
 
     /**
      * 闪光灯
      */
-    fun splash(on:Boolean)
+    fun splash()
 }

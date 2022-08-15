@@ -13,16 +13,18 @@ import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.kt.ktmvvm.R
 import com.kt.ktmvvm.databinding.PopuLayoutBinding
+import com.kt.ktmvvm.jetpack.camerax.CameraParams
 
-class PopWin(context: Context?) : PopupWindow(context) {
+class PopWin(context: Context?) : PopupWindow(context), View.OnClickListener {
 
 
     private var listener: OnPopCheckListener? = null
     private var mContext = context
     var binding: PopuLayoutBinding? = null
+    var cameraParams: CameraParams? = null
 
     init {
-        binding = DataBindingUtil.inflate<PopuLayoutBinding>(
+        binding = DataBindingUtil.inflate(
             LayoutInflater.from(context),
             R.layout.popu_layout,
             null,
@@ -30,11 +32,12 @@ class PopWin(context: Context?) : PopupWindow(context) {
 
         )
 
+        cameraParams = CameraParams.get(context)
 
         isClippingEnabled = false
         contentView = binding?.root
         width = ViewGroup.LayoutParams.MATCH_PARENT
-        height = dip2px(context, 193f)
+        height = ViewGroup.LayoutParams.WRAP_CONTENT
         isFocusable = false
         setBackgroundDrawable(ColorDrawable(0))
     }
@@ -59,22 +62,12 @@ class PopWin(context: Context?) : PopupWindow(context) {
             dismiss()
         } else {
             showAsDropDown(view)
-            binding?.sV?.setOnCheckedChangeListener { buttonView: CompoundButton, isChecked: Boolean ->
-                if (buttonView.isPressed) {
-                    listener?.lightCheck(isChecked)
-                }
-            }
+            binding?.lightLayout?.setOnClickListener(this)
+            binding?.timerLayout?.setOnClickListener(this)
+            binding?.spashLayout?.setOnClickListener(this)
+            binding?.gridLayou?.setOnClickListener(this)
+            binding?.hdrLayout?.setOnClickListener(this)
 
-            binding?.dT?.setOnCheckedChangeListener { buttonView: CompoundButton, isChecked: Boolean ->
-                if (buttonView.isPressed) {
-                    listener?.delay(isChecked)
-                }
-            }
-            binding?.hT?.setOnCheckedChangeListener { buttonView: CompoundButton, isChecked: Boolean ->
-                if (buttonView.isPressed) {
-                    listener?.splash(isChecked)
-                }
-            }
         }
     }
 
@@ -83,75 +76,49 @@ class PopWin(context: Context?) : PopupWindow(context) {
     }
 
 
-    /**
-     * 前置摄像头没有闪光灯
-     */
-    fun setFont(font: Boolean) {
-        if (font) {
-            binding?.splashLayout?.visibility = View.GONE
-        } else {
-            binding?.splashLayout?.visibility = View.VISIBLE
-        }
-    }
-
-
-    /**
-     * 视频模式没有这些东西
-     */
-    fun setVideoHide(visible: Boolean) {
-        binding?.delayLayout?.measure(0, 0)
-        binding?.splashLayout?.visibility = if (visible) View.VISIBLE else View.GONE
-        binding?.delayLayout?.visibility = if (visible) View.VISIBLE else View.GONE
-
-        val measuredHeight = binding?.delayLayout?.measuredHeight
-        var height = binding?.delayLayout?.measuredHeight
-        //
-        height = if (visible) {
-            dip2px(mContext, 193f)
-        } else {
-            dip2px(mContext, 193f) - (height?.times(2) ?: 1)
-        }
-        setHeight(height)
-    }
-
-
-    fun startTranslate() {
-        val autoTransition = AutoTransition()
-        autoTransition.duration = 300
-        autoTransition.interpolator = DecelerateInterpolator()
-        TransitionManager.beginDelayedTransition(binding?.layout!!, autoTransition)
-    }
-
     interface OnPopCheckListener {
-        fun lightCheck(on: Boolean)
-        fun delay(on: Boolean)
-        fun splash(on: Boolean)
+        fun lightCheck()
+        fun delay()
+        fun splash()
+        fun grid()
+        fun hdr()
     }
 
 
-    /**
-     * 设置延时
-     *
-     * @param on
-     */
-    fun setDelay(on: Boolean) {
-        binding?.dT?.isChecked = on
-    }
+    override fun onClick(p0: View?) {
 
-    /**
-     * 夜间灯光开关
-     */
-    fun setLightValueStatus(on: Boolean) {
-        binding?.sV?.isChecked = on
-    }
-
-    /**
-     * 设置闪光灯开关
-     *
-     * @param isOpen
-     */
-    fun setFlashStatus(isOpen: Boolean) {
-        binding?.hT?.isChecked = isOpen
+        when (p0?.id) {
+            R.id.light_layout -> {
+                cameraParams?.torchSwitch = !cameraParams?.torchSwitch!!
+                binding?.ivLight?.isSelected = cameraParams?.torchSwitch!!
+                binding?.nightLight?.isSelected = cameraParams?.torchSwitch!!
+                listener?.lightCheck()
+            }
+            R.id.timer_layout -> {
+                cameraParams?.timer = !cameraParams?.timer!!
+                binding?.ivTimer?.isSelected = cameraParams?.timer!!
+                binding?.timer?.isSelected = cameraParams?.timer!!
+                listener?.delay()
+            }
+            R.id.spash_layout -> {
+                cameraParams?.mSplashOn = !cameraParams?.mSplashOn!!
+                binding?.ivSplash?.isSelected=cameraParams?.mSplashOn!!
+                binding?.splashLine?.isSelected=cameraParams?.mSplashOn!!
+                listener?.splash()
+            }
+            R.id.grid_layou -> {
+                cameraParams?.grid = !cameraParams?.grid!!
+                binding?.ivGrid?.isSelected=cameraParams?.grid!!
+                binding?.gridLine?.isSelected=cameraParams?.grid!!
+                listener?.grid()
+            }
+            R.id.hdr_layout -> {
+                cameraParams?.hdr = !cameraParams?.hdr!!
+                binding?.ivHdr?.isSelected=cameraParams?.hdr!!
+                binding?.hdr?.isSelected=cameraParams?.hdr!!
+                listener?.hdr()
+            }
+        }
     }
 
 }

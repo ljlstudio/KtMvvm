@@ -10,165 +10,172 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="193dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
 
         <LinearLayout
-            android:id="@+id/layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/bg_black_shape"
             android:orientation="vertical"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp">
+            android:paddingTop="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="20dp">
 
-
-            <RelativeLayout
-
-                android:id="@+id/light_layout"
+            <LinearLayout
+                android:id="@+id/layout"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_height="match_parent"
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/light_layout"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true">
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+
+                    <ImageView
+                        android:id="@+id/iv_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/light_selector" />
 
                     <TextView
-
                         android:id="@+id/night_light"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:text="夜间补光"
-                        android:textColor="#ffffffff"
-                        android:textSize="12sp" />
+                        android:textColor="@color/po_color_selector"
+                        android:textSize="10sp" />
 
-                    <TextView
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/timer_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+
+                    <ImageView
+                        android:id="@+id/iv_timer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/night_light"
-                        android:layout_marginTop="4.5dp"
-                        android:text="夜间拍照更加清晰"
-                        android:textColor="#ff999999"
-                        android:textSize="9sp" />
-
-                </RelativeLayout>
-
-                <Switch
-                    android:id="@+id/s_v"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:clickable="true"
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_selector"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
-            </RelativeLayout>
-
-
-            <View
-
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="#82ffffff" />
-
-
-
-            <RelativeLayout
-                android:id="@+id/delay_layout"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true">
+                        android:background="@drawable/timer_selector" />
 
                     <TextView
-                        android:id="@+id/delay"
+                        android:id="@+id/timer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="延时拍摄"
-                        android:textColor="#ffffffff"
-                        android:textSize="12sp" />
+                        android:layout_marginTop="5dp"
+                        android:text="定时拍照"
+                        android:textColor="@color/po_color_selector"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/spash_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+
+                    <ImageView
+                        android:id="@+id/iv_splash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/splash_selector" />
 
                     <TextView
+                        android:id="@+id/splash_line"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/delay"
-                        android:layout_marginTop="4.5dp"
-                        android:text="延时3秒拍摄"
-                        android:textColor="#ff999999"
-                        android:textSize="9sp" />
-                </RelativeLayout>
-
-                <Switch
-
-                    android:id="@+id/d_t"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:maxHeight="24dp"
-                    android:switchMinWidth="40dp"
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_selector" />
-            </RelativeLayout>
-
-
-            <RelativeLayout
-
-                android:id="@+id/splash_layout"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <View
-
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#82ffffff" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true">
-
-                    <TextView
-                        android:id="@+id/splash"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:text="闪光灯"
-                        android:textColor="#ffffffff"
-                        android:textSize="12sp" />
+                        android:textColor="@color/po_color_selector"
+                        android:textSize="10sp" />
 
-                    <TextView
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/grid_layou"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+
+                    <ImageView
+                        android:id="@+id/iv_grid"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/splash"
-                        android:layout_marginTop="4.5dp"
-                        android:text="开启相机闪光"
-                        android:textColor="#ff999999"
-                        android:textSize="9sp" />
-                </RelativeLayout>
+                        android:background="@drawable/grid_selector" />
 
-                <Switch
+                    <TextView
+                        android:id="@+id/grid_line"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="网格线"
+                        android:textColor="@color/po_color_selector"
+                        android:textSize="10sp" />
 
-                    android:id="@+id/h_t"
-                    android:layout_width="wrap_content"
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_two"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+                <LinearLayout
+                    android:id="@+id/hdr_layout"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:maxHeight="24dp"
-                    android:switchMinWidth="40dp"
-                    android:thumb="@drawable/switch_thumb"
-                    android:track="@drawable/switch_selector" />
-            </RelativeLayout>
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/iv_hdr"
+                        android:layout_marginRight="1dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/hdr_selector" />
+
+                    <TextView
+                        android:id="@+id/hdr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="HDR"
+                        android:textColor="@color/po_color_selector"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </layout>

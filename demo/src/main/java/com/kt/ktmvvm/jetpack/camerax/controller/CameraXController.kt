@@ -400,17 +400,16 @@ class CameraXController(
     /**
      * 切换手电筒
      */
-    override fun torchSwitch(on: Boolean) {
+    override fun torchSwitch() {
 
-        cameraControl?.enableTorch(on)
+        cameraControl?.enableTorch(cameraParams?.torchSwitch!!)
 
     }
 
     /**
      * 闪光灯
      */
-    override fun splash(on: Boolean) {
-        cameraParams?.mSplashOn = on
+    override fun splash() {
         //闪光灯模式
         val flashMode =
             if (cameraParams?.mSplashOn == true && cameraParams?.mFacingFront == false) {
