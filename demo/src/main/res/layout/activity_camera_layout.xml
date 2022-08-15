@@ -7,9 +7,12 @@
         <variable
             name="model"
             type="com.kt.ktmvvm.jetpack.camerax.CameraViewModel" />
+
+        <import type="android.view.View" />
     </data>
 
     <RelativeLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -21,6 +24,13 @@
             android:layout_above="@+id/auto_bottom"
             android:layout_below="@+id/auto_top"
             android:layout_centerInParent="true" />
+
+        <com.kt.ktmvvm.widget.GridView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/auto_bottom"
+            android:layout_below="@+id/auto_top"
+            android:visibility="@{model.gridVisible?View.VISIBLE:View.GONE}" />
 
         <com.kt.ktmvvm.widget.AutoTranslateView
             android:id="@+id/auto_top"
@@ -50,6 +60,20 @@
             android:clickable="true"
             android:focusable="true"
             app:bindCameraPreViewListener="@{model.cameraPreViewListener}" />
+
+
+        <com.kt.ktmvvm.widget.RecordCountDownView
+            android:id="@+id/record_count"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/auto_bottom"
+            android:layout_below="@+id/auto_top"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:textSize="60sp"
+            android:textStyle="bold" />
+
 
         <com.kt.ktmvvm.widget.CameraTabView
 
@@ -81,7 +105,6 @@
             android:id="@+id/btn_record"
             android:layout_width="64dp"
             android:layout_height="64dp"
-
             android:layout_above="@+id/camera_tab"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="40dp"
@@ -99,20 +122,20 @@
 
         <RelativeLayout
 
-            android:layout_toLeftOf="@+id/btn_record"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/btn_record"
             android:layout_alignBottom="@+id/btn_record"
-            android:layout_alignTop="@+id/btn_record">
+            android:layout_toLeftOf="@+id/btn_record">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:layout_centerVertical="true"
-                app:bindImgUrl="@{model.picUrl}"
                 android:layout_width="54dp"
                 android:layout_height="54dp"
-                android:scaleType="fitXY"
-                app:shapeAppearanceOverlay="@style/roundedCornerImageStyle5"
                 android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                app:bindImgUrl="@{model.picUrl}"
+                app:shapeAppearanceOverlay="@style/roundedCornerImageStyle5"
 
                 />
 

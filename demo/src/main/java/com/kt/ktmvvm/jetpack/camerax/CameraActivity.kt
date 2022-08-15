@@ -13,6 +13,7 @@ import com.kt.ktmvvm.databinding.ActivityCameraLayoutBinding
 import com.kt.ktmvvm.inner.CameraRatioType
 import com.kt.ktmvvm.jetpack.camerax.controller.CameraXController
 import kotlinx.android.synthetic.main.activity_camera_layout.*
+import kotlinx.android.synthetic.main.bottom_sheet_layout.*
 import kotlin.math.roundToInt
 
 class CameraActivity : BaseActivity<ActivityCameraLayoutBinding, CameraViewModel>() {
@@ -63,8 +64,6 @@ class CameraActivity : BaseActivity<ActivityCameraLayoutBinding, CameraViewModel
                 val screenHeight = ScreenUtils.getScreenHeight()
 
 
-
-
                 when (it) {
 
                     CameraRatioType.RATIO_3_4 -> {
@@ -104,17 +103,17 @@ class CameraActivity : BaseActivity<ActivityCameraLayoutBinding, CameraViewModel
 
                 val centerHeight = screenHeight - (top + bottom)
 
-
-
                 camera_preview.setHTop(top)
-//                camera_preview.layoutParams.height = centerHeight
-//                binding?.viewFinder?.layoutParams?.height = centerHeight
                 binding?.autoTop?.startTranslate(top, it)
                 binding?.autoBottom?.startTranslate(bottom, it)
 
 
             }
 
+        }
+        viewModel?.countDownTimer?.observe(this) {
+            binding?.recordCount?.addOnCountDownListener(viewModel)
+            binding?.recordCount?.start()
         }
     }
 

@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableField
@@ -29,7 +30,9 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
     TopView.OnTopViewListener,
     CameraCallBack,
     RatioPop.OnRatioViewListener,
-    PopWin.OnPopCheckListener, LoaderManager.LoaderCallbacks<Cursor> {
+    PopWin.OnPopCheckListener,
+    LoaderManager.LoaderCallbacks<Cursor>,
+    RecordCountDownView.OnCountDownListener {
 
     var permission: SingleLiveEvent<Boolean>? = SingleLiveEvent()
 
@@ -54,15 +57,17 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
 
     var picUrl: ObservableField<String>? = ObservableField("")
 
+    var countDownTimer: SingleLiveEvent<Boolean>? = SingleLiveEvent()
+    var isTakePicture: Boolean? = true
+    var gridVisible: ObservableField<Boolean>? = ObservableField(false)
+
     companion object {
 
         const val COLUMN_URI = "uri"
         const val COLUMN_COUNT = "count"
 
-
         private const val ALBUM_LOADER_ID = 1
         private const val TAG = "CameraXApp"
-        private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         const val REQUEST_CODE_PERMISSIONS = 10
         val REQUIRED_PERMISSIONS =
             mutableListOf(
@@ -75,8 +80,12 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
             }.toTypedArray()
     }
 
+    var cameraParams: CameraParams? = null
     override fun onCreate() {
         super.onCreate()
+
+        cameraParams = CameraParams.get(getApplication())
+
         requestPermissions()
 
     }
@@ -116,20 +125,48 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
     }
 
     override fun onRecordStart() {
-        //录像开始
-        Log.e(TAG, "开始录制")
+        if (cameraParams?.timer == true) {
+            isTakePicture = false
+            countDownTimer?.postValue(true)
+            return
+        }
         cameraXController?.takeVideo()
     }
 
     override fun onRecordStop() {
-        //录像结束
-        Log.e(TAG, "结束录制")
         cameraXController?.takeVideo()
     }
 
     override fun takePhoto() {
+        if (cameraParams?.timer == true) {
+            isTakePicture = true
+            countDownTimer?.postValue(true)
+            return
+        }
         cameraXController?.takePhoto()
     }
+
+    /**
+     * 倒计时结束
+     */
+    override fun onCountDownEnd() {
+        if (isTakePicture == true) {
+            cameraXController?.takePhoto()
+        } else {
+            cameraXController?.takeVideo()
+        }
+    }
+
+    /**
+     * 倒计时取消
+     */
+    override fun onCountDownCancel() {
+
+    }
+
+    /**
+     * 缩放
+     */
 
     override fun onZoom(percent: Float) {
 
@@ -202,7 +239,7 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
     }
 
     override fun grid() {
-
+        gridVisible?.set(cameraParams?.grid)
     }
 
     override fun hdr() {
@@ -230,15 +267,16 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
 
     }
 
+    private fun destroyImageLoader() {
+        loaderManager?.destroyLoader(ALBUM_LOADER_ID)
+
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
         destroyImageLoader()
     }
 
-    private fun destroyImageLoader() {
-        loaderManager?.destroyLoader(ALBUM_LOADER_ID)
-//        loaderManager = null
-    }
 
 }
