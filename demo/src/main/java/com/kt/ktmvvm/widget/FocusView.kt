@@ -48,7 +48,7 @@ class FocusView : View {
         paint?.isAntiAlias = true
         paint?.color = Color.WHITE
         paint?.style = Paint.Style.STROKE
-        paint?.strokeWidth = 10f
+        paint?.strokeWidth = 3f
 
 
     }

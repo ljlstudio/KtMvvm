@@ -279,4 +279,11 @@ object BindingAdapter {
     fun setOnPopCheckListener(topView: TopView, listener: PopWin.OnPopCheckListener) {
         topView.setOnPopCheckListener(listener)
     }
+
+
+    @BindingAdapter("bindOnTranslateTouchListener")
+    @JvmStatic
+    fun setOnTranslateTouchListener(translateView: TranslateView,listener: TranslateView.OnTranslateTouchListener){
+        translateView.setOnTranslateTouchListener(listener)
+    }
 }

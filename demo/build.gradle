@@ -66,6 +66,7 @@ dependencies {
     implementation "androidx.camera:camera-video:${camerax_version}"
     implementation "androidx.camera:camera-view:${camerax_version}"
     implementation "androidx.camera:camera-extensions:${camerax_version}"
+    implementation "androidx.concurrent:concurrent-futures-ktx:1.1.0"
     api 'com.blankj:utilcodex:1.31.0' //工具类
 
 }

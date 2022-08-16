@@ -77,6 +77,13 @@ class TopView : RelativeLayout {
 
     }
 
+    fun hideSettingPop(){
+        popWin?.hidePop()
+    }
+    fun hideRatioPop(){
+        ratioPop?.hidePop()
+    }
+
     fun setOnPopCheckListener(listener: PopWin.OnPopCheckListener) {
         this.popWinListener = listener
     }

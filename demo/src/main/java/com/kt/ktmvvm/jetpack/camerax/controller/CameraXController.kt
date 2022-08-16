@@ -11,20 +11,28 @@ import android.util.Size
 import android.widget.Toast
 import androidx.camera.core.*
 import androidx.camera.core.FocusMeteringAction.FLAG_AF
+import androidx.camera.extensions.ExtensionMode
+import androidx.camera.extensions.ExtensionsManager
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.video.*
 import androidx.camera.video.VideoCapture
 import androidx.camera.video.VideoCapture.withOutput
 import androidx.camera.view.CameraController
 import androidx.camera.view.PreviewView
+import androidx.concurrent.futures.await
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.util.ScreenUtils
 import com.google.common.util.concurrent.ListenableFuture
 import com.kt.ktmvvm.inner.CameraRatioType
 import com.kt.ktmvvm.jetpack.camerax.CameraCallBack
 import com.kt.ktmvvm.jetpack.camerax.CameraParams
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -67,11 +75,15 @@ class CameraXController(
     /**
      * 打开相机预览
      */
+    @OptIn(DelicateCoroutinesApi::class)
     @SuppressLint("RestrictedApi")
     override fun openCameraPreView() {
+
+
         cameraProviderFuture = ProcessCameraProvider.getInstance(mLifecycleOwner!!)
 
         cameraProviderFuture?.addListener({
+
 
             cameraProvider = cameraProviderFuture?.get()
 
@@ -121,6 +133,7 @@ class CameraXController(
 
             }
 
+
             //闪光灯模式
             val flashMode =
                 if (cameraParams?.mSplashOn == true && cameraParams?.mFacingFront == false) {
@@ -152,31 +165,75 @@ class CameraXController(
                 .build()
 
 
-            try {
+//                //---------------------------------------------CameraX 高级用法 几乎国内设备都不支持扩展-------------------------------------
+            var startPreView = false
 
-                cameraProvider?.unbindAll()
-                // 绑定输出
-                camera = cameraProvider?.bindToLifecycle(
-                    mLifecycleOwner!!,
-                    cameraSelector,
-                    mPreView,
-                    imageCapture,
-                    videoCapture
+            mLifecycleOwner?.lifecycleScope?.launch {
+                val extensionsManager =
+                    ExtensionsManager.getInstanceAsync(mLifecycleOwner!!, cameraProvider!!).await()
 
-                )
 
-                if (!isInt) {
-                    isInt = true
-                    callBack?.ratioCallBack(cameraParams?.mRatioType)
+                if (extensionsManager.isExtensionAvailable(
+                        cameraSelector,
+                        cameraParams?.extensionMode!!
+                    )
+                ) {
+                    Log.d(TAG, "支持" + cameraParams?.extensionMode)
+                    val extensionId = extensionsManager.getExtensionEnabledCameraSelector(
+                        cameraSelector,
+                        cameraParams?.extensionMode!!
+                    )
+                    startPreView = true
+                    bindCameraId(extensionId)
+
+                } else {
+                    startPreView = false
+                    Log.d(TAG, "不支持" + cameraParams?.extensionMode)
                 }
-                cameraControl = camera?.cameraControl
 
-                focus(this.preview?.width?.div(2f)!!, this.preview?.height?.div(2f)!!, true)
-            } catch (exc: Exception) {
-                Log.e(TAG, "Use case binding failed", exc)
             }
 
+            //--------------------------------------------------普通绑定------------------------------------------------------------------------
+            if (!startPreView) {
+                bindCameraId(cameraSelector)
+            }
+
+
         }, ContextCompat.getMainExecutor(mLifecycleOwner!!))
+
+    }
+
+
+    /**
+     * 绑定相机id
+     */
+    private fun bindCameraId(cameraSelector: CameraSelector) {
+        try {
+
+            cameraProvider?.unbindAll()
+            // 绑定输出
+            camera = cameraProvider?.bindToLifecycle(
+                mLifecycleOwner!!,
+                cameraSelector,
+                mPreView,
+                imageCapture,
+                videoCapture
+
+            )
+            if (!isInt) {
+                isInt = true
+                callBack?.ratioCallBack(cameraParams?.mRatioType)
+            }
+            cameraControl = camera?.cameraControl
+
+            focus(preview?.width?.div(2f)!!, preview?.height?.div(2f)!!, true)
+
+
+        } catch (exc: Exception) {
+            Log.e(TAG, "Use case binding failed", exc)
+        }
+
+
     }
 
     /**

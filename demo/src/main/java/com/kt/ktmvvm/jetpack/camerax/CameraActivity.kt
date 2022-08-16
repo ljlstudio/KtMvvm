@@ -3,6 +3,8 @@ package com.kt.ktmvvm.jetpack.camerax
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
+import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.loader.app.LoaderManager
 import com.blankj.utilcode.util.ScreenUtils
@@ -35,6 +37,11 @@ class CameraActivity : BaseActivity<ActivityCameraLayoutBinding, CameraViewModel
 
     override fun initViewObservable() {
         super.initViewObservable()
+
+        viewModel?.hidePop?.observe(this) {
+            binding?.top?.hideRatioPop()
+            binding?.top?.hideSettingPop()
+        }
 
         viewModel?.permission?.observe(this) {
             ActivityCompat.requestPermissions(

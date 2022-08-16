@@ -32,7 +32,8 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
     RatioPop.OnRatioViewListener,
     PopWin.OnPopCheckListener,
     LoaderManager.LoaderCallbacks<Cursor>,
-    RecordCountDownView.OnCountDownListener {
+    RecordCountDownView.OnCountDownListener,
+    TranslateView.OnTranslateTouchListener {
 
     var permission: SingleLiveEvent<Boolean>? = SingleLiveEvent()
 
@@ -60,6 +61,9 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
     var countDownTimer: SingleLiveEvent<Boolean>? = SingleLiveEvent()
     var isTakePicture: Boolean? = true
     var gridVisible: ObservableField<Boolean>? = ObservableField(false)
+    var onTranslateTouchListener: ObservableField<TranslateView.OnTranslateTouchListener>? =
+        ObservableField(this)
+    var hidePop:SingleLiveEvent<Boolean>?= SingleLiveEvent()
 
     companion object {
 
@@ -243,7 +247,7 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
     }
 
     override fun hdr() {
-
+        cameraXController?.openCameraPreView()
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
@@ -276,6 +280,10 @@ class CameraViewModel(application: Application) : BaseViewModel(application),
     override fun onDestroy() {
         super.onDestroy()
         destroyImageLoader()
+    }
+
+    override fun touchTrans() {
+        hidePop?.postValue(true)
     }
 
 

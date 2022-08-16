@@ -2,6 +2,7 @@ package com.kt.ktmvvm.jetpack.camerax
 
 import android.annotation.SuppressLint
 import android.content.Context
+import androidx.camera.extensions.ExtensionMode
 import com.kt.ktmvvm.download.manager.DownloadManager
 import com.kt.ktmvvm.inner.CameraRatioType
 
@@ -30,11 +31,13 @@ class CameraParams(context: Context?) {
     var torchSwitch: Boolean = false//补光
     var timer: Boolean = false//倒计时
     var grid: Boolean = false//网格线
-    var hdr:Boolean=false
+    var hdr: Boolean = false//hdr
+    var extensionMode: Int?= ExtensionMode.NONE
 
     init {
-        hdr=false
-        grid=false
+        extensionMode = ExtensionMode.NONE
+        hdr = false
+        grid = false
         timer = false
         torchSwitch = false
         mFacingFront = false

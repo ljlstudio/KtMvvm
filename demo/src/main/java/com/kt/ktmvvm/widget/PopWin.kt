@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.CompoundButton
 import android.widget.PopupWindow
+import androidx.camera.extensions.ExtensionMode
 import androidx.databinding.DataBindingUtil
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
@@ -116,6 +117,11 @@ class PopWin(context: Context?) : PopupWindow(context), View.OnClickListener {
                 cameraParams?.hdr = !cameraParams?.hdr!!
                 binding?.ivHdr?.isSelected=cameraParams?.hdr!!
                 binding?.hdr?.isSelected=cameraParams?.hdr!!
+                if (cameraParams?.hdr==true){
+                    cameraParams?.extensionMode=ExtensionMode.HDR
+                }else{
+                    cameraParams?.extensionMode=ExtensionMode.NONE
+                }
                 listener?.hdr()
             }
         }
