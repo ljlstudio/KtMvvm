@@ -28,7 +28,7 @@ object Constants {
     private const val picture10: String = "https://img95.699pic.com/photo/50067/7441.jpg_wh300.jpg"
     private const val picture11: String =
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDaHxoObfeCAHlIcYGBqUwC-QpuSO1QRsjtw&usqp=CAU"
-    private const val picture12: String =
+     const val picture12: String =
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmF5cQLOnoe6-kz4hDX6fY2Qg3qoWHiaAMRw&usqp=CAU"
     private const val picture13: String =
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-b_BErbObOwITa6EXIMQSTyZ_zdNQQbpndg&usqp=CAU"
@@ -97,7 +97,6 @@ object Constants {
     ) as MutableList<String>
 
     val pictures2: MutableList<String> = listOf(
-        picture1, picture2, picture3,
         picture4, picture5, picture6,
         picture7, picture8, picture9,
         picture10, picture11,

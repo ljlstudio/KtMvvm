@@ -2,6 +2,8 @@ package com.kt.ktmvvm.jetpack.room
 
 import android.app.Application
 import android.util.Log
+import androidx.databinding.ObservableField
+import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.kt.ktmvvm.basic.BaseViewModel
 import com.kt.ktmvvm.jetpack.room.db.User
@@ -12,6 +14,9 @@ import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class RoomViewModel(application: Application) : BaseViewModel(application) {
+
+
+    var result: ObservableField<String>? = ObservableField("")
 
     companion object {
         val TAG: String = RoomViewModel::class.java.simpleName
@@ -38,6 +43,7 @@ class RoomViewModel(application: Application) : BaseViewModel(application) {
 
             hotDog?.let {
                 Log.d(TAG, "已经有一条相同的数据啦")
+                result?.set("已经有一条相同的数据啦")
             } ?: randomInsert(random)
 
             //先查询,如果没这条数据 就插入，有的话打印数据
@@ -59,6 +65,7 @@ class RoomViewModel(application: Application) : BaseViewModel(application) {
                 UserDataBase.get(getApplication()).userDao()
                     .updateUser(User(random, "我是更新整个user后的数据", "男"))
                 Log.d(TAG, "更新整个user数据成功")
+                result?.set("更新整个user数据成功")
             } ?: randomInsert(random)
         }
     }
@@ -76,6 +83,7 @@ class RoomViewModel(application: Application) : BaseViewModel(application) {
                 UserDataBase.get(getApplication()).userDao()
                     .updateSingleName(UserName(random, "我是单独更新后的数据"))
                 Log.d(TAG, "更新单独数据成功")
+                result?.set("更新单独数据成功")
             } ?: randomInsert(random)
         }
     }
@@ -91,6 +99,7 @@ class RoomViewModel(application: Application) : BaseViewModel(application) {
             user?.let {
                 UserDataBase.get(getApplication()).userDao().delete(user)
                 Log.d(TAG, "删除某条数据成功")
+                result?.set("删除某条数据成功")
             } ?: randomInsert(random)
         }
     }
@@ -103,5 +112,6 @@ class RoomViewModel(application: Application) : BaseViewModel(application) {
         val mD = User(random, "热狗先生$random", "女")
         UserDataBase.get(getApplication()).userDao().insertAll(mD)
         Log.d(TAG, "插入数据成功")
+        result?.set("插入数据成功")
     }
 }

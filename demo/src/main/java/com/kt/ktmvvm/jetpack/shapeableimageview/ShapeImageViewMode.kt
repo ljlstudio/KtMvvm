@@ -7,5 +7,5 @@ import com.kt.ktmvvm.basic.BaseViewModel
 
 class ShapeImageViewMode(application: Application) :BaseViewModel(application) {
 
-    var imgUrl:ObservableField<String>?= ObservableField(Constants.picture1)
+    var imgUrl:ObservableField<String>?= ObservableField(Constants.picture12)
 }
