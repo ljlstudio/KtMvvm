@@ -89,7 +89,10 @@ object Constants {
 
 
     val pictures: MutableList<String> = listOf(
-        picture1, picture2, picture3, picture4, picture5, picture6, picture7, picture8, picture9,
+        picture24, picture25,
+        picture26, picture27,
+        picture28, picture29,
+        picture30, picture31, picture4, picture5, picture6, picture7, picture8, picture9,
         picture10
     ) as MutableList<String>
 
