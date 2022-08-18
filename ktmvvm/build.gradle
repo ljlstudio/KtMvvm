@@ -40,6 +40,7 @@ android {
         dataBinding = true
     }
 
+
 //    dataBinding {
 //        enabled = true
 //    }
@@ -83,6 +84,10 @@ dependencies {
 
 
     implementation 'org.jetbrains:annotations:15.0'
+
+
+    //httpDns 优化
+    implementation 'com.aliyun.ams:alicloud-android-httpdns:2.2.2'
 
 
 }

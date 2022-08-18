@@ -1,29 +1,38 @@
 package com.kt.ktmvvm.net
 
+import android.annotation.SuppressLint
+import android.content.Context
+import com.kt.ktmvvm.net.dns.HTTPDNSInterceptor
+import com.kt.ktmvvm.net.dns.OkHttpDns
+import com.kt.ktmvvm.net.event.OkHttpEventListener
 import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
+import okhttp3.Protocol
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.HashMap
 
-class RetrofitClient {
-
-    /**
-     * retrofit 初始化build
-     */
-    private fun RetrofitClient() {}
+class RetrofitClient
+/**
+ * retrofit 初始化build
+ */(var context: Context?) {
 
 
     companion object {
+
+        @SuppressLint("StaticFieldLeak")
         private var retrofitClient: RetrofitClient? = null
         private const val DEFAULT_TIME_OUT = 15
         private val sRetrofitManager: MutableMap<Int, Retrofit> = HashMap()
-        fun getInstance(): RetrofitClient {
+        fun getInstance(context: Context?): RetrofitClient {
+
             if (retrofitClient == null) {
                 synchronized(RetrofitClient::class.java) {
-                    retrofitClient = RetrofitClient()
+                    retrofitClient = RetrofitClient(context)
                     return retrofitClient as RetrofitClient
                 }
             }
@@ -52,35 +61,12 @@ class RetrofitClient {
             .connectionPool(ConnectionPool(8, 10, TimeUnit.SECONDS)) //添加这两行代码
             .sslSocketFactory(TrustAllCerts.createSSLSocketFactory()!!, TrustAllCerts())
             .hostnameVerifier(TrustAllCerts.TrustAllHostnameVerifier())
+//            .protocols(Collections.unmodifiableList(listOf(Protocol.HTTP_1_1)))
+            //alibaba dns优化
+//            .dns(OkHttpDns.get(context))
+//            .addInterceptor(HTTPDNSInterceptor(context))
             .addInterceptor(httpLoggingInterceptor)
-
-
-            //                .addInterceptor(chain -> {
-            ////                    /**这个回调每次网络请求都会走,适合经常变化的公参*/
-            ////                    Request request = chain.request();
-            ////                    Request.Builder requestBuilder = request.newBuilder();
-            ////                    HttpUrl.Builder httpUrlBuilder = request.url().newBuilder();
-            ////                    String sourceChannel = HeadParams.getSourceChannel();
-            ////                    if (!request.url().toString().contains("device/reportInfo")) {
-            ////                        httpUrlBuilder.addQueryParameter("imei", HeadParams.getImei());
-            ////                        httpUrlBuilder.addQueryParameter("oaid", HeadParams.getOaid());
-            ////                        httpUrlBuilder.addQueryParameter("androidId", HeadParams.getAndroidId());
-            ////                        httpUrlBuilder.addQueryParameter("Channel",
-            ////                                (TextUtils.isEmpty(sourceChannel) || "-1".equals(sourceChannel)) ? HeadParams.getChannelId() : sourceChannel);
-            ////
-            ////                    }
-            ////                    httpUrlBuilder.addQueryParameter("imsi", HeadParams.getImsi());
-            ////                    httpUrlBuilder.addQueryParameter("FirstLinkTime", HeadParams.getFirstLinkTime());
-            ////                    httpUrlBuilder.addQueryParameter("SecondLinkTime", HeadParams.getClientFirstLinkTime());
-            ////                    httpUrlBuilder.addQueryParameter("wifi", HeadParams.getWifi());
-            ////                    httpUrlBuilder.addQueryParameter("regID", HeadParams.getRegId());
-            ////                    httpUrlBuilder.addQueryParameter("userTag",  PrefsUtil.getInstance().getString(Constants.CLEAN_UMENG_TAG_KEY, ""));
-            //
-            //                    Request lastRequest = requestBuilder.url(httpUrlBuilder.build()).build();
-            //                    /* 如果需要qabr3接口的话.你懂得 */
-            //
-            //                    return chain.proceed(lastRequest);
-            //                })
+            .eventListenerFactory(OkHttpEventListener.FACTORY)
             .build()
     }
 

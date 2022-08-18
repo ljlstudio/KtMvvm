@@ -2,9 +2,6 @@ package com.kt.ktmvvm
 
 import android.app.Application
 import android.util.Log
-import android.widget.Toast
-import androidx.databinding.ObservableField
-import androidx.lifecycle.viewModelScope
 import com.kt.ktmvvm.basic.BaseViewModel
 import com.kt.ktmvvm.download.DownloadActivity
 import com.kt.ktmvvm.jetpack.camerax.CameraActivity
@@ -15,10 +12,7 @@ import com.kt.ktmvvm.jetpack.viewpager.ViewPager2Activity
 import com.kt.ktmvvm.net.ApiException
 import com.kt.ktmvvm.net.DataService
 import com.kt.ktmvvm.ui.MosaicActivity
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import kotlin.math.log
+import java.util.*
 
 open class MainViewModel(application: Application) : BaseViewModel(application) {
 
@@ -30,22 +24,49 @@ open class MainViewModel(application: Application) : BaseViewModel(application) 
     /**
      * 登录测试
      */
-    open fun login() {
+    open fun getBookInfo() {
 
 
         launch({
-            val login = DataService.login(1, "admin", "admin")
+            val login = DataService.getBookInfo(3)
 
-            if (login.getErrCode() == 200) {
-                var data = login.getData()
-            } else {
-                ApiException(-1, "返回结果出错")
-            }
         }, onError = {
 
             Log.d(TAG, "the error is" + it.message)
         })
 
+    }
+
+
+    /**
+     * 历史上的今天
+     */
+    open fun getHistoryDate() {
+
+        launch({
+            val instance = Calendar.getInstance()
+
+            val month = instance.get(Calendar.MONTH) + 1;
+
+            val day = instance.get(Calendar.DATE);
+
+            Log.d(TAG, "the date is$month/$day")
+            val any = DataService.getHistoryDate(4, "$month/$day")
+
+            any?.let {
+
+            } ?: let {
+                //数据为空
+            }
+
+//            if (login.getErrCode() == 200) {
+//                var data = login.getData()
+//            } else {
+//                ApiException(-1, "返回结果出错")
+//            }
+        }, onError = {
+
+        })
     }
 
     /**

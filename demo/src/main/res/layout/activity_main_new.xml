@@ -21,7 +21,7 @@
             android:id="@+id/bt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{()->model.login()}"
+            android:onClick="@{()->model.getBookInfo()}"
             android:text="测试登录（login接口测试）" />
 
 

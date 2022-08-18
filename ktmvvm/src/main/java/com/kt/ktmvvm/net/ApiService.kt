@@ -1,14 +1,32 @@
 package com.kt.ktmvvm.net
 
-import io.reactivex.Observable
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
-import java.util.*
 
 interface ApiService {
+
+
+    /**
+     * 图书馆数据
+     */
+    @GET(ApiAddress.ONE_PIECE)
+    suspend fun onePiece(
+        @Query("dtype") dtype: String,
+        @Query("key") key: String
+    ): Any?
+
+
+    /**
+     * 历史上的今天
+     */
+    @GET(ApiAddress.HISTORY_DATE)
+    suspend fun history(
+        @Query("date") dtype: String,
+        @Query("key") key: String
+    ): Any?
 
 
     /**
