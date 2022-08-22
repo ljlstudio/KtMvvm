@@ -1,4 +1,4 @@
-package com.kt.ktmvvm.net.dns
+package com.kt.ktmvvm.net.interceptor
 
 import android.content.Context
 import com.alibaba.sdk.android.httpdns.HttpDns

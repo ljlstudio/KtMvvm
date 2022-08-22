@@ -7,13 +7,11 @@ import com.alibaba.sdk.android.httpdns.HttpDns
 import com.alibaba.sdk.android.httpdns.HttpDnsService
 import okhttp3.Dns
 import java.net.InetAddress
-import java.net.UnknownHostException
-import java.util.*
 
 /**
  * DNS 优化
  */
-class OkHttpDns(context: Context?) : Dns {
+class OkHttpDNS(context: Context?) : Dns {
     private val SYSTEM = Dns.SYSTEM
     private var httpDns: HttpDnsService? = null
 
@@ -23,12 +21,12 @@ class OkHttpDns(context: Context?) : Dns {
 
 
     companion object {
-        private var instance: OkHttpDns? = null
-        fun get(context: Context?): OkHttpDns {
+        private var instance: OkHttpDNS? = null
+        fun get(context: Context?): OkHttpDNS {
             if (instance == null) {
-                synchronized(OkHttpDns::class.java) {
+                synchronized(OkHttpDNS::class.java) {
                     if (instance == null) {
-                        instance = OkHttpDns(context)
+                        instance = OkHttpDNS(context)
                     }
                 }
             }

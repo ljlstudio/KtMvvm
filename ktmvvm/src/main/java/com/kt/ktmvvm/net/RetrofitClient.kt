@@ -2,17 +2,17 @@ package com.kt.ktmvvm.net
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.kt.ktmvvm.net.dns.HTTPDNSInterceptor
-import com.kt.ktmvvm.net.dns.OkHttpDns
+import com.kt.ktmvvm.net.dns.OkHttpDNS
 import com.kt.ktmvvm.net.event.OkHttpEventListener
+import com.kt.ktmvvm.net.interceptor.HTTPDNSInterceptor
+import com.kt.ktmvvm.net.interceptor.NoNetworkInterceptor
+import okhttp3.Cache
 import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
-import okhttp3.Protocol
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.HashMap
 
@@ -44,30 +44,48 @@ class RetrofitClient
     /**
      * 创建连接客户端
      */
-    private fun createOkHttpClient(): OkHttpClient {
+    private fun createOkHttpClient(optimization: Boolean): OkHttpClient {
 
         //设置请求头拦截器
-        //设置日志拦截器
+
         val httpLoggingInterceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT)
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
 
         //根据需求添加不同的拦截器
 
-        return OkHttpClient.Builder()
-            .connectTimeout(DEFAULT_TIME_OUT.toLong(), TimeUnit.SECONDS)
-            .writeTimeout(DEFAULT_TIME_OUT.toLong(), TimeUnit.SECONDS)
-            .readTimeout(DEFAULT_TIME_OUT.toLong(), TimeUnit.SECONDS)
-            .connectionPool(ConnectionPool(8, 10, TimeUnit.SECONDS)) //添加这两行代码
-            .sslSocketFactory(TrustAllCerts.createSSLSocketFactory()!!, TrustAllCerts())
-            .hostnameVerifier(TrustAllCerts.TrustAllHostnameVerifier())
+        if (optimization) {
+            //DNS 优化以及 开启缓存、无网拦截
+            return OkHttpClient.Builder()
+                .connectTimeout(DEFAULT_TIME_OUT.toLong(), TimeUnit.SECONDS)
+                .writeTimeout(DEFAULT_TIME_OUT.toLong(), TimeUnit.SECONDS)
+                .readTimeout(DEFAULT_TIME_OUT.toLong(), TimeUnit.SECONDS)
+                .connectionPool(ConnectionPool(8, 10, TimeUnit.SECONDS)) //添加这两行代码
+                .sslSocketFactory(TrustAllCerts.createSSLSocketFactory()!!, TrustAllCerts())
+                .hostnameVerifier(TrustAllCerts.TrustAllHostnameVerifier())
 //            .protocols(Collections.unmodifiableList(listOf(Protocol.HTTP_1_1)))
-            //alibaba dns优化
-//            .dns(OkHttpDns.get(context))
-//            .addInterceptor(HTTPDNSInterceptor(context))
-            .addInterceptor(httpLoggingInterceptor)
-            .eventListenerFactory(OkHttpEventListener.FACTORY)
-            .build()
+                //alibaba dns优化
+                .dns(OkHttpDNS.get(context))
+                .addInterceptor(HTTPDNSInterceptor(context)) //不建议用这种方式，因为大型APP 域名会比较多，假设HTTPS 的话，证书会认证失败
+                .cache(context?.cacheDir?.let { Cache(it, 50 * 1024 * 1024L) })//缓存目录
+                .addInterceptor(NoNetworkInterceptor(context))//无网拦截器
+                .addInterceptor(httpLoggingInterceptor)
+                .eventListenerFactory(OkHttpEventListener.FACTORY)
+                .build()
+        } else {
+            //无优化版本
+            return OkHttpClient.Builder()
+                .connectTimeout(DEFAULT_TIME_OUT.toLong(), TimeUnit.SECONDS)
+                .writeTimeout(DEFAULT_TIME_OUT.toLong(), TimeUnit.SECONDS)
+                .readTimeout(DEFAULT_TIME_OUT.toLong(), TimeUnit.SECONDS)
+                .connectionPool(ConnectionPool(8, 10, TimeUnit.SECONDS)) //添加这两行代码
+                .sslSocketFactory(TrustAllCerts.createSSLSocketFactory()!!, TrustAllCerts())
+                .hostnameVerifier(TrustAllCerts.TrustAllHostnameVerifier())
+                .addInterceptor(httpLoggingInterceptor)
+                .eventListenerFactory(OkHttpEventListener.FACTORY)
+                .build()
+        }
+
     }
 
 
@@ -91,7 +109,7 @@ class RetrofitClient
             .baseUrl(BaseUrlConstants.getHost(hostType))
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .client(createOkHttpClient())
+            .client(createOkHttpClient(true))
             .build()
         sRetrofitManager[hostType] = retrofit
         if (interfaceServer == null) {
