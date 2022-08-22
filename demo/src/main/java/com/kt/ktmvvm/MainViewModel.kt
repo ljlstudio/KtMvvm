@@ -11,6 +11,7 @@ import com.kt.ktmvvm.jetpack.shapeableimageview.ShapeImageActivity
 import com.kt.ktmvvm.jetpack.viewpager.ViewPager2Activity
 import com.kt.ktmvvm.net.ApiException
 import com.kt.ktmvvm.net.DataService
+import com.kt.ktmvvm.ui.KeyBordActivity
 import com.kt.ktmvvm.ui.MosaicActivity
 import java.util.*
 
@@ -138,5 +139,12 @@ open class MainViewModel(application: Application) : BaseViewModel(application) 
 
     open fun goCamera() {
         startActivity(CameraActivity::class.java)
+    }
+
+    /**
+     * 进入自定义键盘
+     */
+    open fun getKeyBord() {
+        startActivity(KeyBordActivity::class.java)
     }
 }

@@ -9,10 +9,12 @@
 
 
     <uses-feature android:name="android.hardware.camera.any" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
 
         android:name=".MyApp"
@@ -57,10 +59,14 @@
             android:name=".jetpack.shapeableimageview.ShapeImageActivity"
             android:screenOrientation="fullSensor" />
 
-        <activity android:name=".jetpack.camerax.CameraActivity"
-            android:theme="@style/NoActionBarTheme"
+        <activity
+            android:name=".jetpack.camerax.CameraActivity"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/NoActionBarTheme" />
+
+        <activity
+            android:name=".ui.KeyBordActivity"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

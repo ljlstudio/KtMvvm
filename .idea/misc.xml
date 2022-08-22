@@ -12,8 +12,11 @@
         <entry key="..\:/KtMvvm/demo/src/main/res/drawable/light_selector.xml" value="0.207" />
         <entry key="..\:/KtMvvm/demo/src/main/res/drawable/progress.xml" value="0.207" />
         <entry key="..\:/KtMvvm/demo/src/main/res/drawable/selector_9_16.xml" value="0.207" />
+        <entry key="..\:/KtMvvm/demo/src/main/res/drawable/selector_keyboard.xml" value="0.207" />
+        <entry key="..\:/KtMvvm/demo/src/main/res/drawable/selector_text_color.xml" value="0.207" />
         <entry key="..\:/KtMvvm/demo/src/main/res/drawable/shape_9_16.xml" value="0.207" />
         <entry key="..\:/KtMvvm/demo/src/main/res/drawable/shape_9_16_fd87aa.xml" value="0.207" />
+        <entry key="..\:/KtMvvm/demo/src/main/res/drawable/shape_un_select_bg.xml" value="0.207" />
         <entry key="..\:/KtMvvm/demo/src/main/res/drawable/splash_selector.xml" value="0.207" />
         <entry key="..\:/KtMvvm/demo/src/main/res/drawable/switch_camera_selector.xml" value="0.207" />
         <entry key="..\:/KtMvvm/demo/src/main/res/drawable/switch_selector.xml" value="0.207" />
@@ -30,6 +33,8 @@
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/activity_shape_layout.xml" value="0.2" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/bottom_sheet_layout.xml" value="0.36614583333333334" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/camera_preview.xml" value="0.30055579307396324" />
+        <entry key="..\:/KtMvvm/demo/src/main/res/layout/keybord_item_layout.xml" value="0.30055579307396324" />
+        <entry key="..\:/KtMvvm/demo/src/main/res/layout/keybord_layout.xml" value="0.30055579307396324" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/popu_layout.xml" value="0.25" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/ratio_popu_layout.xml" value="0.33" />
         <entry key="..\:/KtMvvm/demo/src/main/res/layout/rcv_item_layout.xml" value="0.36614583333333334" />
